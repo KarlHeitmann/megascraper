@@ -28,9 +28,10 @@ app.listen(4000, async () => {
   console.log("Server running on port: 4000");
 })
 
-app.get("/avg_price", async (req, res, next) => {
-  const symbol = req.query.symbol;
-  res.send({avg_price: "average price"})
+app.get("/", async (req, res, next) => {
+  // const symbol = req.query.symbol;
+  const motos = await YapoMoto.find({})
+  res.send({motos})
 })
 
 app.get("/nordstrom", async (req, res, next) => {
