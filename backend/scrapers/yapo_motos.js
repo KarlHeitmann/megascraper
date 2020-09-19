@@ -69,10 +69,53 @@ async function scrapeDetail(moto_url) {
  return _moto;
 }
 
-async function extraer_todo() {
+async function scrapeDetailUrls(motos_url) {
+  const promises = motos_url.map(async url => {
+    const result = await request.get(url);
+    const $ = await cheerio.load(result);
+    const descripcion = $('.description').text().trim();
+    const titulo = $('#da_subject').text().trim();
+    const fecha = $('div.title-main > small > time').attr('datetime');
+    const filas_detalles = $('tr');
+    let _moto = {
+      titulo: titulo,
+      url,
+      precio: null,
+      year: null,
+      kilometraje: null,
+      ciudad: null,
+      fecha: Date(fecha),
+      descripcion: descripcion,
+      cilindrada: null,
+    }
+    for (let i = 0; i < filas_detalles.length; i++) {
+      const element = filas_detalles[i];
+      if (i == 0) { // Precio
+        _moto.precio = $(element).find('strong').text().trim().replace(/\./g,'')
+        console.log(_moto.precio)
+      } else if (i == 1) { // year
+        _moto.year = $(element).find('td').text().trim()
+        console.log(_moto.year)
+      } else if (i == 2) { // kilometros
+        _moto.kilometraje = $(element).find('td').text().trim()
+        console.log(_moto.kilometraje)
+      } else if (i == 3) { // cilindradas
+        _moto.cilindrada = $(element).find('td').text().trim().replace(' cc', '')
+        console.log(_moto.cilindrada)
+      } else if (i == 4) { // tipo
+        _moto.tipo = $(element).find('td').text().trim()
+        console.log(_moto.tipo)
+      }
+    }
+    return _moto
+  })
+ return Promise.all(promises);
+}
+
+async function extraerUrlsPagina() {
   const result = await request.get(home_url);
   const $ = await cheerio.load(result);
-  const motos = [];
+  const motos_url = [];
   const motos_html = $('.ad.listing_thumbs')
   // const pruebas = 5;
   // for (let i=0; i < pruebas; i++) {
@@ -81,19 +124,20 @@ async function extraer_todo() {
     let url
     try {
       url = $(element).find('.title').attr('href');
-      const moto = await scrapeDetail(url);
-      motos.push(moto)
+      motos_url.push(url)
     } catch (error) {
       console.error(error);
       console.error(url)
       console.error("ERROR: moto.url no se ha podido parsear");
     }
   }
-  return motos
+  // const moto = await scrapeDetail(motos_url);
+  return motos_url
 }
 
 async function main() {
-  const motos = await extraer_todo();
+  const motos_url = await extraerUrlsPagina();
+  const motos = await scrapeDetailUrls(motos_url);
   console.log("::::")
   console.log(motos);
   await mongoose.connect(process.env.MONGO_ATLAS_URL, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -107,5 +151,5 @@ async function main() {
 
 module.exports = {
   main,
-  extraer_todo,
+  extraerUrlsPagina,
 }

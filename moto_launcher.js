@@ -1,5 +1,5 @@
 const {
   main
-} = require('./scrapers/yapo_motos');
+} = require('./backend/scrapers/yapo_motos');
 
 main()
