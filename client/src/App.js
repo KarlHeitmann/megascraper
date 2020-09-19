@@ -1,6 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import {
   Layout,
   Menu,
@@ -18,17 +22,26 @@ function App() {
 
   return (
     <Layout>
-      <Header>
-        <div className="logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1">Motos</Menu.Item>
-          <Menu.Item key="2">Workana</Menu.Item>
-          <Menu.Item key="3">nav 3</Menu.Item>
-        </Menu>
-      </Header>
-      <Content>
-        <Motos/>
-      </Content>
+      <Router>
+        <Header>
+          <div className="logo" />
+          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+            <Menu.Item key="1">
+              <Link to="/">Motos</Link>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <Link to="/workana">Workana</Link>
+            </Menu.Item>
+          </Menu>
+        </Header>
+        <Content>
+          <Switch>
+            <Route path="/">
+              <Motos/>
+            </Route>
+          </Switch>
+        </Content>
+      </Router>
       <Footer>Footer</Footer>
     </Layout>
   );
