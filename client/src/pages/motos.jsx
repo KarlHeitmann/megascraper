@@ -56,6 +56,13 @@ function Motos(props) {
       
     },
     {
+      title: 'Cilindrada',
+      dataIndex: 'cilindrada',
+      key: 'cilindrada',
+      sortDirections: ['ascend', 'descend'],
+      sorter: (a, b) => Number(a.cilindrada) > Number(b.cilindrada),
+    },
+    {
       title: 'Año',
       dataIndex: 'year',
       key: 'year',
@@ -80,13 +87,6 @@ function Motos(props) {
       dataIndex: 'descripcion',
       key: 'descripcion',
     },
-    {
-      title: 'Cilindrada',
-      dataIndex: 'cilindrada',
-      key: 'cilindrada',
-      sortDirections: ['ascend', 'descend'],
-      sorter: (a, b) => Number(a.cilindrada) > Number(b.cilindrada),
-    },
   ];
 
   useEffect(() => {
@@ -94,7 +94,6 @@ function Motos(props) {
     const url_request = `http://localhost:4000/`;
     axios.get(url_request)
       .then(response => {
-        console.log(response);
         const { motos } = response.data;
         console.log(motos)
         setMotos( motos )
@@ -106,7 +105,9 @@ function Motos(props) {
     const url_request = `http://localhost:4000/motos/scrape`;
     axios.get(url_request)
       .then(response => {
-        console.log(response)
+        const { motos } = response.data;
+        console.log(motos)
+        setMotos( motos )
       })
   }
 
