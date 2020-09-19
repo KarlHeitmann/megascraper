@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 const YapoMoto = require("./models/YapoMoto.js");
 require('dotenv').config()
 
+const {
+  extraer_todo
+} = require('./scrapers/yapo_motos');
+
 const cors = require("cors");
 const app = express();
 app.use(cors());
@@ -35,7 +39,8 @@ app.get("/", async (req, res, next) => {
 })
 
 app.get("/motos/scrape", async(req, res, next) => {
-  res.send({motos: []})
+  const motos = await extraer_todo();
+  res.send({motos})
 })
 
 app.get("/nordstrom", async (req, res, next) => {

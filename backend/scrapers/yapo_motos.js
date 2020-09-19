@@ -8,7 +8,7 @@ const defaultOptions = {
 const request = require('request-promise').defaults(defaultOptions);
 const cheerio = require('cheerio');
 // const moment = require('moment');
-const YapoMoto = require("./model/YapoMoto");
+const YapoMoto = require("../models/YapoMoto");
 const mongoose = require("mongoose");
 
 const home_url = 'https://www.yapo.cl/valparaiso/motos?ca=6_s&l=0&w=1&cmn=&st=s';
@@ -69,7 +69,7 @@ async function scrapeDetail(moto_url) {
  return _moto;
 }
 
-async function main() {
+async function extraer_todo() {
   const result = await request.get(home_url);
   const $ = await cheerio.load(result);
   const motos = [];
@@ -89,6 +89,12 @@ async function main() {
       console.error("ERROR: moto.url no se ha podido parsear");
     }
   }
+  return motos
+}
+
+async function main() {
+  const motos = await extraer_todo();
+  console.log("::::")
   console.log(motos);
   await mongoose.connect(process.env.MONGO_ATLAS_URL, { useNewUrlParser: true, useUnifiedTopology: true });
   await insertYapoMotoInMongoDb(motos);
@@ -97,4 +103,9 @@ async function main() {
 }
 
 
-main();
+// main();
+
+module.exports = {
+  main,
+  extraer_todo,
+}

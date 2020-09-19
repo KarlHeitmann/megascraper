@@ -5,16 +5,20 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon backend/index.js"
+    "dev": "nodemon backend/index.js",
+    "scrape:yapomotos": "node moto_launcher"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "antd": "^4.6.4",
+    "cheerio": "^1.0.0-rc.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.10.6"
+    "mongoose": "^5.10.6",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
   }
 }
