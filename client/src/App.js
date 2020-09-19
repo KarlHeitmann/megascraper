@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {
@@ -16,36 +16,87 @@ const {
 
 function App() {
 
-  const dataSource = [
-    {
-      key: '1',
-      name: 'Mike',
-      age: 32,
-      address: '10 Downing Street',
-    },
-    {
-      key: '2',
-      name: 'John',
-      age: 42,
-      address: '10 Downing Street',
-    },
-  ];
+  const [motos, setMotos] = useState([]);
 
   const columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Titulo',
+      dataIndex: 'titulo',
+      key: 'titulo',
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: 'URL',
+      dataIndex: 'url',
+      key: 'url',
+      render: (text, row, index) => {
+        return <a href={text}>Ir</a>
+        // if (index < 4) {
+        //   return <a>{text}</a>;
+        // }
+        // return {
+        //   children: <a>{text}</a>,
+        //   props: {
+        //     colSpan: 5,
+        //   },
+        // };
+      },
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'precio',
+      dataIndex: 'precio',
+      key: 'precio',
+      sortDirections: ['ascend', 'descend'],
+      sorter: (a, b) => Number(a.precio) > Number(b.precio),
+      render: (text, row, index) => {
+        // let salida = []
+        // let partida = true
+        // for (let i=(text.length - 1); i>=0; i--) {
+        //   if (partida) {
+        //     partida = false
+        //   } else {
+        //     if ((i%3) == 0) {
+        //       salida.unshift(".")
+        //     }
+        //   }
+        //   salida.unshift(text[i])
+        // }
+
+        // return salida.join("");
+        return text
+      }
+      
+    },
+    {
+      title: 'Año',
+      dataIndex: 'year',
+      key: 'year',
+    },
+    {
+      title: 'Kilometraje',
+      dataIndex: 'kilometraje',
+      key: 'kilometraje',
+    },
+    {
+      title: 'Ciudad',
+      dataIndex: 'ciudad',
+      key: 'ciudad',
+    },
+    {
+      title: 'Fecha',
+      dataIndex: 'fecha',
+      key: 'fecha',
+    },
+    {
+      title: 'Descripciòn',
+      dataIndex: 'descripcion',
+      key: 'descripcion',
+    },
+    {
+      title: 'Cilindrada',
+      dataIndex: 'cilindrada',
+      key: 'cilindrada',
+      sortDirections: ['ascend', 'descend'],
+      sorter: (a, b) => Number(a.cilindrada) > Number(b.cilindrada),
     },
   ];
 
@@ -55,13 +106,16 @@ function App() {
     axios.get(url_request)
       .then(response => {
         console.log(response);
+        const { motos } = response.data;
+        console.log(motos)
+        setMotos( motos )
       })
   }, [])
   return (
     <Layout>
       <Header>Header</Header>
       <Content>
-        <Table dataSource={dataSource} columns={columns} />;
+        <Table dataSource={motos} columns={columns} />;
       </Content>
       <Footer>Footer</Footer>
     </Layout>
