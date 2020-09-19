@@ -103,6 +103,11 @@ function Motos(props) {
 
   const onBtnScrape = () => {
     console.log("onBtnScrape")
+    const url_request = `http://localhost:4000/motos/scrape`;
+    axios.get(url_request)
+      .then(response => {
+        console.log(response)
+      })
   }
 
   return(
