@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   Table,
+  Button,
 } from 'antd';
 import axios from 'axios';
 
@@ -100,8 +101,20 @@ function Motos(props) {
       })
   }, [])
 
+  const onBtnScrape = () => {
+    console.log("onBtnScrape")
+  }
+
   return(
-    <Table dataSource={motos} columns={columns} />
+    <>
+      <Button
+        type="primary"
+        onClick={onBtnScrape}
+        >
+        Scrape
+      </Button>
+      <Table dataSource={motos} columns={columns} />
+    </>
   )
 }
 

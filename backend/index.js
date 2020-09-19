@@ -34,6 +34,10 @@ app.get("/", async (req, res, next) => {
   res.send({motos})
 })
 
+app.get("/motos/scrape", async(req, res, next) => {
+  res.send({motos: []})
+})
+
 app.get("/nordstrom", async (req, res, next) => {
   const numberOfTop = req.query.top;
   const keyword = encodeURIComponent(req.query.keyword);
