@@ -13,6 +13,7 @@ import {
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import Motos from './pages/motos';
 import MotosSidebar from './sidebar/motos_sidebar';
+import WorkanaJobs from './pages/workana_jobs';
 
 const {
   Footer,
@@ -47,6 +48,9 @@ function App() {
         </Sider>
         <Content>
           <Switch>
+            <Route path="/workana">
+              <WorkanaJobs/>
+            </Route>
             <Route path="/">
               <Motos/>
             </Route>
