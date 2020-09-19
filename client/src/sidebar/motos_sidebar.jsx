@@ -13,7 +13,7 @@ function MotosSidebar(props) {
       defaultOpenKeys={['sub1']}
       style={{ height: '100%', borderRight: 0 }}
       >
-      <Menu.SubMenu key="sub1" icon={<UserOutlined />} title="subnav 1">
+      <Menu.SubMenu key="sub1" icon={<UserOutlined />} title="Datos">
         <Menu.Item key="1">option1</Menu.Item>
         <Menu.Item key="2">option2</Menu.Item>
         <Menu.Item key="3">option3</Menu.Item>
