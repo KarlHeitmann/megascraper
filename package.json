@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon backend/index.js",
-    "scrape:yapomotos": "node moto_launcher"
+    "scrape:yapomotos": "node moto_launcher",
+    "scrape:workana": "node workana_launcher"
   },
   "keywords": [],
   "author": "",

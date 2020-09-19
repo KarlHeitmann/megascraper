@@ -1,7 +1,7 @@
 const request = require('request-promise');
 const cheerio = require('cheerio');
 const moment = require('moment');
-const WorkanaJob = require("./model/WorkanaJob");
+const WorkanaJob = require("../models/WorkanaJob");
 const mongoose = require("mongoose");
 
 
@@ -32,7 +32,7 @@ async function insertWorkanaJobInMongoDb(jobs) {
   await Promise.all(promises);
 }
 
-async function main() {
+async function scrapePage() {
   const result = await request.get(home_url);
   const $ = await cheerio.load(result)
   const scrapedJobs = []
@@ -70,10 +70,19 @@ async function main() {
     // console.log(element)
     scrapedJobs.push(job)
   })
+  return scrapedJobs;
+}
+
+async function main() {
+  const scrapedJobs = await scrapePage();
+  console.log(scrapedJobs)
   await mongoose.connect(process.env.MONGO_ATLAS_URL, { useNewUrlParser: true, useUnifiedTopology: true });
   await insertWorkanaJobInMongoDb(scrapedJobs);
   mongoose.disconnect();
   console.log(scrapedJobs);
 }
 
-main()
+module.exports = {
+  main,
+  scrapePage,
+}
