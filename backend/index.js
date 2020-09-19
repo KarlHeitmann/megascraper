@@ -24,6 +24,8 @@ bot.onText(/\/echo (.+)/, (msg, match) => {
 
 bot.on('message', (msg) => {
   const chatId = msg.chat.id;
+  console.log("CHAT ID");
+  console.log(chatId);
 
   // send a message to the chat acknowledging receipt of their message
   bot.sendMessage(chatId, 'Received your message');
@@ -69,6 +71,8 @@ app.get("/motos/scrape", async(req, res, next) => {
 
 app.get("/workana/scrape", async(req, res, next) => {
   const workana_jobs = await workana_job.scrapePage()
+  console.log(workana_jobs)
+  bot.sendMessage(861511144, workana_jobs[0].titulo);
   res.send({workana_jobs})
 })
 
