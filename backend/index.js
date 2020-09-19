@@ -4,7 +4,8 @@ const YapoMoto = require("./models/YapoMoto.js");
 require('dotenv').config()
 
 const {
-  extraer_todo
+  extraerUrlsPagina,
+  scrapeDetailUrls,
 } = require('./scrapers/yapo_motos');
 
 const cors = require("cors");
@@ -39,7 +40,10 @@ app.get("/", async (req, res, next) => {
 })
 
 app.get("/motos/scrape", async(req, res, next) => {
-  const motos = await extraer_todo();
+  const motos_url = await extraerUrlsPagina();
+  console.log(motos_url)
+  console.log(scrapeDetailUrls)
+  const motos = await scrapeDetailUrls(motos_url);
   res.send({motos})
 })
 
