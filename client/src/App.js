@@ -7,6 +7,7 @@ import {
 } from 'antd';
 import axios from 'axios';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
+import Motos from './pages/motos';
 
 const {
   Footer,
@@ -115,6 +116,7 @@ function App() {
     <Layout>
       <Header>Header</Header>
       <Content>
+        <Motos/>
         <Table dataSource={motos} columns={columns} />;
       </Content>
       <Footer>Footer</Footer>
