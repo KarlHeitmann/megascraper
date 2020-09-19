@@ -4,6 +4,7 @@ const YapoMoto = require("./models/YapoMoto.js");
 require('dotenv').config()
 
 const yapo_motos = require('./scrapers/yapo_motos');
+const workana_job = require('./scrapers/workana_job');
 
 const cors = require("cors");
 const app = express();
@@ -40,6 +41,11 @@ app.get("/motos/scrape", async(req, res, next) => {
   const motos_url = await yapo_motos.extraerUrlsPagina();
   const motos = await yapo_motos.scrapeDetailUrls(motos_url);
   res.send({motos})
+})
+
+app.get("/workana/scrape", async(req, res, next) => {
+  const workana_jobs = await workana_job.scrapePage()
+  res.send({workana_jobs})
 })
 
 app.get("/nordstrom", async (req, res, next) => {

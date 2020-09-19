@@ -1,18 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Button
 } from 'antd';
+import axios from 'axios';
 
 function WorkanaJobs(props) {
+  const [workana_jobs, setWorkanaJobs] = useState([])
 
   const onBtnScrape = () => {
     console.log("onBtnScrape")
     const url_request = `http://localhost:4000/workana/scrape`;
     axios.get(url_request)
       .then(response => {
-        const { motos } = response.data;
-        console.log(motos)
-        setMotos( motos )
+        const { workana_jobs } = response.data;
+        console.log(workana_jobs)
+        setWorkanaJobs( workana_jobs )
       })
   }
 
