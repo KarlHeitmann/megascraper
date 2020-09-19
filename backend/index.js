@@ -20,8 +20,8 @@ app.use(cors());
 // });
 
 app.listen(4000, async () => {
-  console.log(process.env.MONGO_ATLAS_URL)
-  await mongoose.connect(process.env.MONGO_ATLAS_URL, {
+  console.log(process.env.MONGO_DB)
+  await mongoose.connect(process.env.MONGO_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
