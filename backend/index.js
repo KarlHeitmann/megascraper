@@ -9,6 +9,7 @@ const workana_job = require('./scrapers/workana_job');
 
 const TelegramBot = require('node-telegram-bot-api');
 const token_bot = process.env.SCRAPERO_BOT_KEY;
+const routes = require('./routes');
 const bot = new TelegramBot(token_bot, {polling: true});
 
 bot.onText(/\/echo (.+)/, (msg, match) => {
@@ -48,6 +49,8 @@ app.use(cors());
 //     NordApiVersion: 2
 //   }
 // });
+
+app.use(routes);
 
 app.listen(4000, async () => {
   console.log(process.env.MONGO_DB)
