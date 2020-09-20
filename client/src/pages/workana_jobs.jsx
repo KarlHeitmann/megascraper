@@ -5,48 +5,11 @@ import {
 } from 'antd';
 import axios from 'axios';
 
+import workana_jobs_columns from '../table_columnas/workana_jobs';
+
 function WorkanaJobs(props) {
   const [workana_jobs, setWorkanaJobs] = useState([])
-  const columns = [
-    {
-      title: 'Titulo',
-      dataIndex: 'titulo',
-      key: 'titulo',
-    },
-    {
-      title: 'URL',
-      dataIndex: 'url',
-      key: 'url',
-      render: (text, row, index) => {
-        return <a href={text}>Ir</a>
-      },
-    },
-    {
-      title: 'Fecha publicación',
-      dataIndex: 'fecha_publicacion',
-      key: 'fecha_publicacion',
-    },
-    {
-      title: 'Precio',
-      dataIndex: 'precio',
-      key: 'precio',
-    },
-    {
-      title: 'Propuestas',
-      dataIndex: 'propuestas',
-      key: 'propuestas',
-    },
-    {
-      title: 'Descripción',
-      dataIndex: 'descripcion',
-      key: 'descripcion',
-    },
-    {
-      title: 'Deadline',
-      dataIndex: 'deadline',
-      key: 'deadline',
-    },
-  ]
+  
 
   const onBtnScrape = () => {
     console.log("onBtnScrape")
@@ -68,7 +31,7 @@ function WorkanaJobs(props) {
         >
         Scrape
       </Button>
-      <Table dataSource={workana_jobs} columns={columns} />
+      <Table dataSource={workana_jobs} columns={workana_jobs_columns} />
     </>
   )
 }
