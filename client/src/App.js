@@ -14,6 +14,8 @@ import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import Motos from './pages/motos';
 import MotosSidebar from './sidebar/motos_sidebar';
 import WorkanaJobs from './pages/workana_jobs';
+import WorkanaSidebar from './sidebar/workana_sidebar';
+import WorkanaMongo from './pages/workana_mongo';
 
 const {
   Footer,
@@ -41,6 +43,9 @@ function App() {
         <Layout>
         <Sider>
           <Switch>
+            <Route path="/workana">
+              <WorkanaSidebar/>
+            </Route>
             <Route path="/">
               <MotosSidebar/>
             </Route>
@@ -48,6 +53,9 @@ function App() {
         </Sider>
         <Content>
           <Switch>
+            <Route path="/workana/mongo">
+              <WorkanaMongo/>
+            </Route>
             <Route path="/workana">
               <WorkanaJobs/>
             </Route>

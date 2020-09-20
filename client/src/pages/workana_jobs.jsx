@@ -61,6 +61,7 @@ function WorkanaJobs(props) {
 
   return(
     <>
+      <h1 className="title">Workana</h1>
       <Button
         type="primary"
         onClick={onBtnScrape}
