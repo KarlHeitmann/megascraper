@@ -1,4 +1,5 @@
 const workana_job = require('../scrapers/workana_job');
+const yapo_motos = require('../scrapers/yapo_motos');
 
 module.exports = {
   workana: async function(req, res) {
@@ -19,5 +20,11 @@ module.exports = {
     // bot.sendMessage(861511144, workana_jobs[0].titulo);
     res.send({workana_jobs});
 
+  },
+  motos: async function(req, res) {
+    const motos_url = await yapo_motos.extraerUrlsPagina();
+    const motos = await yapo_motos.scrapeDetailUrls(motos_url);
+    yapo_motos.insertYapoMotoInMongoDb(motos)
+    res.send({motos})
   }
 }
