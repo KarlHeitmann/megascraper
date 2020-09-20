@@ -73,11 +73,6 @@ app.get("/motos/scrape", async(req, res, next) => {
   res.send({motos})
 })
 
-app.get("/workana/index", async(req, res, next) => {
-  const workana_jobs = await WorkanaJob.find({})
-  res.send({workana_jobs})
-})
-
 app.get("/workana/scrape", async(req, res, next) => {
   const pages = req.query.pages;
   console.log(pages);
