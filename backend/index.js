@@ -62,6 +62,7 @@ app.listen(4000, async () => {
 
 app.get("/", async (req, res, next) => {
   // const symbol = req.query.symbol;
+  console.log("wena")
   const motos = await YapoMoto.find({})
   res.send({motos})
 })
@@ -69,5 +70,6 @@ app.get("/", async (req, res, next) => {
 app.get("/motos/scrape", async(req, res, next) => {
   const motos_url = await yapo_motos.extraerUrlsPagina();
   const motos = await yapo_motos.scrapeDetailUrls(motos_url);
+  yapo_motos.insertYapoMotoInMongoDb(motos)
   res.send({motos})
 })
