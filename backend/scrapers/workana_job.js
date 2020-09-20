@@ -5,7 +5,6 @@ const WorkanaJob = require("../models/WorkanaJob");
 const mongoose = require("mongoose");
 
 
-const home_url = "https://www.workana.com/jobs?category=it-programming&language=es"
 
 function filtrarPrecio(_precio) {
   return _precio.trim()
@@ -26,14 +25,15 @@ async function insertWorkanaJobInMongoDb(jobs) {
         return newJob.save();
       }
     } catch(error) {
-
+      console.error(error);
+      return {}
     }
   });
   await Promise.all(promises);
 }
 
-async function scrapePage() {
-  const result = await request.get(home_url);
+async function scrapePage(_home_url) {
+  const result = await request.get(_home_url);
   const $ = await cheerio.load(result)
   const scrapedJobs = []
   $('.project-item.js-project').each((index, element) => {
@@ -70,11 +70,16 @@ async function scrapePage() {
     // console.log(element)
     scrapedJobs.push(job)
   })
-  return scrapedJobs;
+  return {
+    scrapedJobs
+  }
+  ;
 }
 
 async function main() {
-  const scrapedJobs = await scrapePage();
+  // const home_url = "https://www.workana.com/jobs?category=it-programming&language=es"
+  const home_url = "https://www.workana.com/jobs?category=it-programming&language=es&page=1";
+  const { scrapedJobs } = await scrapePage(home_url);
   console.log(scrapedJobs)
   await mongoose.connect(process.env.MONGO_ATLAS_URL, { useNewUrlParser: true, useUnifiedTopology: true });
   await insertWorkanaJobInMongoDb(scrapedJobs);
@@ -85,4 +90,5 @@ async function main() {
 module.exports = {
   main,
   scrapePage,
+  insertWorkanaJobInMongoDb,
 }

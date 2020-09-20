@@ -1,10 +1,37 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const YapoMoto = require("./models/YapoMoto.js");
+const WorkanaJob = require("./models/WorkanaJob.js");
 require('dotenv').config()
 
 const yapo_motos = require('./scrapers/yapo_motos');
 const workana_job = require('./scrapers/workana_job');
+
+const TelegramBot = require('node-telegram-bot-api');
+const token_bot = process.env.SCRAPERO_BOT_KEY;
+const bot = new TelegramBot(token_bot, {polling: true});
+
+bot.onText(/\/echo (.+)/, (msg, match) => {
+  // 'msg' is the received Message from Telegram
+  // 'match' is the result of executing the regexp above on the text content
+  // of the message
+
+  const chatId = msg.chat.id;
+  const resp = match[1]; // the captured "whatever"
+
+  // send back the matched "whatever" to the chat
+  bot.sendMessage(chatId, resp);
+});
+
+bot.on('message', (msg) => {
+  const chatId = msg.chat.id;
+  console.log("CHAT ID");
+  console.log(chatId);
+
+  // send a message to the chat acknowledging receipt of their message
+  bot.sendMessage(chatId, 'Received your message');
+});
+
 
 const cors = require("cors");
 const app = express();
@@ -43,9 +70,28 @@ app.get("/motos/scrape", async(req, res, next) => {
   res.send({motos})
 })
 
-app.get("/workana/scrape", async(req, res, next) => {
-  const workana_jobs = await workana_job.scrapePage()
+app.get("/workana/index", async(req, res, next) => {
+  const workana_jobs = await WorkanaJob.find({})
   res.send({workana_jobs})
+})
+
+app.get("/workana/scrape", async(req, res, next) => {
+  const pages = req.query.pages;
+  console.log(pages);
+
+  const vueltas = pages ? Number(pages) : 1;
+  
+  let workana_jobs = [];
+  for (let i = 1; i <= vueltas; i++) {
+    const workana_url = `https://www.workana.com/jobs?category=it-programming&language=es&page=${i}`;
+    const { scrapedJobs } = await workana_job.scrapePage(workana_url);
+    workana_jobs = workana_jobs.concat(scrapedJobs);
+    // console.log(workana_jobs);
+  }
+  workana_job.insertWorkanaJobInMongoDb(workana_jobs);
+  // console.log(workana_jobs)
+  // bot.sendMessage(861511144, workana_jobs[0].titulo);
+  res.send({workana_jobs});
 })
 
 app.get("/nordstrom", async (req, res, next) => {
