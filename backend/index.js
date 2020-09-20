@@ -70,8 +70,11 @@ app.get("/motos/scrape", async(req, res, next) => {
 })
 
 app.get("/workana/scrape", async(req, res, next) => {
+  const pages = req.query.pages
+  console.log(pages)
+  
   const workana_jobs = await workana_job.scrapePage()
-  console.log(workana_jobs)
+  // console.log(workana_jobs)
   // bot.sendMessage(861511144, workana_jobs[0].titulo);
   res.send({workana_jobs})
 })
