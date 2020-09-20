@@ -1,6 +1,9 @@
 const workana_job = require('../scrapers/workana_job');
 const yapo_motos = require('../scrapers/yapo_motos');
 
+// TODO XXX: Quizas sea importante eliminar aqui los await, y reemplazarlos por
+// las promesas
+
 module.exports = {
   workana: async function(req, res) {
     const pages = req.query.pages;
@@ -22,9 +25,14 @@ module.exports = {
 
   },
   motos: async function(req, res) {
-    const motos_url = await yapo_motos.extraerUrlsPagina();
-    const motos = await yapo_motos.scrapeDetailUrls(motos_url);
-    yapo_motos.insertYapoMotoInMongoDb(motos)
-    res.send({motos})
+    
+    // const motos_url = await yapo_motos.extraerUrlsPagina();
+    // const motos = await yapo_motos.scrapeDetailUrls(motos_url);
+    yapo_motos.extraerUrlsPagina().then(motos_url => {
+      yapo_motos.scrapeDetailUrls(motos_url).then(motos => {
+        yapo_motos.insertYapoMotoInMongoDb(motos)
+        res.send({motos})
+      })
+    })
   }
 }
