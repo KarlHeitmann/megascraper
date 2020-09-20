@@ -102,7 +102,7 @@ function Motos(props) {
 
   const onBtnScrape = () => {
     console.log("onBtnScrape")
-    const url_request = `http://localhost:4000/scraper/motos`;
+    const url_request = `http://localhost:4000/scrapers/motos`;
     axios.get(url_request)
       .then(response => {
         const { motos } = response.data;
