@@ -76,7 +76,8 @@ async function scrapePage(_home_url) {
 }
 
 async function main() {
-  const home_url = "https://www.workana.com/jobs?category=it-programming&language=es"
+  // const home_url = "https://www.workana.com/jobs?category=it-programming&language=es"
+  const home_url = "https://www.workana.com/jobs?category=it-programming&language=es&page=1";
   const { scrapedJobs } = await scrapePage(home_url);
   console.log(scrapedJobs)
   await mongoose.connect(process.env.MONGO_ATLAS_URL, { useNewUrlParser: true, useUnifiedTopology: true });

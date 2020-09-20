@@ -73,7 +73,10 @@ app.get("/workana/scrape", async(req, res, next) => {
   const pages = req.query.pages
   console.log(pages)
   
-  const workana_jobs = await workana_job.scrapePage()
+  const workana_url = "https://www.workana.com/jobs?category=it-programming&language=es&page=1";
+  let workana_jobs
+  const { scrapedJobs } = await workana_job.scrapePage(workana_url)
+  workana_jobs = scrapedJobs
   // console.log(workana_jobs)
   // bot.sendMessage(861511144, workana_jobs[0].titulo);
   res.send({workana_jobs})
