@@ -71,15 +71,3 @@ app.get("/motos/scrape", async(req, res, next) => {
   const motos = await yapo_motos.scrapeDetailUrls(motos_url);
   res.send({motos})
 })
-
-app.get("/nordstrom", async (req, res, next) => {
-  const numberOfTop = req.query.top;
-  const keyword = encodeURIComponent(req.query.keyword);
-  // res.send("Hello world");
-  const url = 
-    `https://query.ecommerce.api.nordstrom.com/api/queryresults/keywordsearch/?top=${numberOfTop}&IncludeFacets=false&Keyword=${keyword}`
-  console.log(url);
-  const json = await request.get(url);
-  res.setHeader("Content-Type", "application/json")
-  res.send(json)
-})
