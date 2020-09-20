@@ -1,12 +1,15 @@
 // routes/index.js
 const router = require('express').Router();
 const workanajobsRoutes = require('./workanajobs');
+const yapomotosRoutes = require('./yapomotos');
 const workana_job = require('../scrapers/workana_job');
+const yapo_motos = require('../scrapers/yapo_motos');
 const path = require('path');
 
 // API routes
 // router.use('/api/books', workanajobsRoutes);
 router.use('/api/workana', workanajobsRoutes);
+router.use('/api/yapomotos', yapomotosRoutes);
 
 router.use('/scraper/workana', async(req, res, next) => {
   const pages = req.query.pages;
@@ -27,6 +30,12 @@ router.use('/scraper/workana', async(req, res, next) => {
   res.send({workana_jobs});
 })
 
+router.use("/scraper/motos", async(req, res, next) => {
+  const motos_url = await yapo_motos.extraerUrlsPagina();
+  const motos = await yapo_motos.scrapeDetailUrls(motos_url);
+  yapo_motos.insertYapoMotoInMongoDb(motos)
+  res.send({motos})
+})
 // If no API routes are hit, send the React app
 // router.use(function(req, res) {
 // 	res.sendFile(path.join(__dirname, '../../client/build/index.html'));

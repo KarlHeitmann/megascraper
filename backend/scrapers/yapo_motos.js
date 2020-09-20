@@ -153,4 +153,5 @@ module.exports = {
   main,
   extraerUrlsPagina,
   scrapeDetailUrls,
+  insertYapoMotoInMongoDb,
 }

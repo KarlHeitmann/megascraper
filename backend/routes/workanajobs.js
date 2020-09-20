@@ -1,8 +1,5 @@
-// books.js
-
 const router = require('express').Router();
 const workanaController = require('../controllers/workana');
-// const booksController = require('../controllers/workana');
 
 router
 	.route('/')
