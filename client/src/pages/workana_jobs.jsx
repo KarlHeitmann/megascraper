@@ -5,7 +5,7 @@ import {
   Row,
   Col,
   Input,
-  Form, Checkbox
+  Form
 } from 'antd';
 import axios from 'axios';
 
@@ -23,9 +23,11 @@ function WorkanaJobs(props) {
   const [workana_jobs, setWorkanaJobs] = useState([])
   
 
-  const onBtnScrape = () => {
-    console.log("onBtnScrape")
-    const url_request = `http://localhost:4000/workana/scrape`;
+  const onBtnScrape = (values) => {
+    console.log("onBtnScrape");
+    console.log(values);
+    const { pages } = values
+    const url_request = `http://localhost:4000/workana/scrape${pages ? "?pages=" + pages : "" }`;
     axios.get(url_request)
       .then(response => {
         const { workana_jobs } = response.data;
@@ -55,27 +57,15 @@ function WorkanaJobs(props) {
             {...layout}
             name="basic"
             initialValues={{ remember: true }}
-            onFinish={onFinish}
+            onFinish={onBtnScrape}
             onFinishFailed={onFinishFailed}
           >
             <Form.Item
-              label="Username"
-              name="username"
-              rules={[{ required: true, message: 'Please input your username!' }]}
+              label="Pages to scrap"
+              name="pages"
+              // rules={[{ required: true, message: 'Please input your username!' }]}
             >
               <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-              <Checkbox>Remember me</Checkbox>
             </Form.Item>
 
             <Form.Item {...tailLayout}>
