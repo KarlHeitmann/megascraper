@@ -3,8 +3,6 @@ const router = require('express').Router();
 const workanajobsRoutes = require('./workanajobs');
 const yapomotosRoutes = require('./yapomotos');
 const scrapersRoutes = require('./scrapers');
-const workana_job = require('../scrapers/workana_job');
-const yapo_motos = require('../scrapers/yapo_motos');
 const path = require('path');
 
 // API routes
@@ -12,5 +10,10 @@ const path = require('path');
 router.use('/api/workana', workanajobsRoutes);
 router.use('/api/yapomotos', yapomotosRoutes);
 router.use('/scrapers', scrapersRoutes);
+
+// If no API routes are hit, send the React app
+// router.use(function(req, res) {
+// 	res.sendFile(path.join(__dirname, '../../client/build/index.html'));
+// });
 
 module.exports = router;
