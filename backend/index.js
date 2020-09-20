@@ -70,16 +70,21 @@ app.get("/motos/scrape", async(req, res, next) => {
 })
 
 app.get("/workana/scrape", async(req, res, next) => {
-  const pages = req.query.pages
-  console.log(pages)
+  const pages = req.query.pages;
+  console.log(pages);
+
+  const vueltas = pages ? Number(pages) : 1;
   
-  const workana_url = "https://www.workana.com/jobs?category=it-programming&language=es&page=1";
-  let workana_jobs
-  const { scrapedJobs } = await workana_job.scrapePage(workana_url)
-  workana_jobs = scrapedJobs
+  let workana_jobs = [];
+  for (let i = 1; i <= vueltas; i++) {
+    const workana_url = `https://www.workana.com/jobs?category=it-programming&language=es&page=${i}`;
+    const { scrapedJobs } = await workana_job.scrapePage(workana_url);
+    workana_jobs = workana_jobs.concat(scrapedJobs);
+    // console.log(workana_jobs);
+  }
   // console.log(workana_jobs)
   // bot.sendMessage(861511144, workana_jobs[0].titulo);
-  res.send({workana_jobs})
+  res.send({workana_jobs});
 })
 
 app.get("/nordstrom", async (req, res, next) => {
