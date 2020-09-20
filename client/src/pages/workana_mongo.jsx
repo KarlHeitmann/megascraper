@@ -11,11 +11,11 @@ function WorkanaMongo(props) {
   useEffect(() => {
 
     console.log("useEffect");
-    const url_request = `http://localhost:4000/workana/index`;
+    const url_request = `http://localhost:4000/api/workana`;
     axios.get(url_request)
       .then(response => {
         console.log(response)
-        const { workana_jobs } = response.data;
+        const workana_jobs = response.data;
         console.log(workana_jobs)
         setWorkanaJobs( workana_jobs )
       })

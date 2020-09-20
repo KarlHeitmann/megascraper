@@ -91,10 +91,10 @@ function Motos(props) {
 
   useEffect(() => {
     console.log("useEffect");
-    const url_request = `http://localhost:4000/`;
+    const url_request = `http://localhost:4000/api/yapomotos`;
     axios.get(url_request)
       .then(response => {
-        const { motos } = response.data;
+        const motos = response.data;
         console.log(motos)
         setMotos( motos )
       })
@@ -102,7 +102,7 @@ function Motos(props) {
 
   const onBtnScrape = () => {
     console.log("onBtnScrape")
-    const url_request = `http://localhost:4000/motos/scrape`;
+    const url_request = `http://localhost:4000/scrapers/motos`;
     axios.get(url_request)
       .then(response => {
         const { motos } = response.data;

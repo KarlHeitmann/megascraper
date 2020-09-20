@@ -1,14 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const YapoMoto = require("./models/YapoMoto.js");
-const WorkanaJob = require("./models/WorkanaJob.js");
 require('dotenv').config()
 
-const yapo_motos = require('./scrapers/yapo_motos');
-const workana_job = require('./scrapers/workana_job');
 
 const TelegramBot = require('node-telegram-bot-api');
 const token_bot = process.env.SCRAPERO_BOT_KEY;
+const routes = require('./routes');
 const bot = new TelegramBot(token_bot, {polling: true});
 
 bot.onText(/\/echo (.+)/, (msg, match) => {
@@ -49,6 +47,8 @@ app.use(cors());
 //   }
 // });
 
+app.use(routes);
+
 app.listen(4000, async () => {
   console.log(process.env.MONGO_DB)
   await mongoose.connect(process.env.MONGO_DB, {
@@ -60,48 +60,7 @@ app.listen(4000, async () => {
 
 app.get("/", async (req, res, next) => {
   // const symbol = req.query.symbol;
+  console.log("wena")
   const motos = await YapoMoto.find({})
   res.send({motos})
-})
-
-app.get("/motos/scrape", async(req, res, next) => {
-  const motos_url = await yapo_motos.extraerUrlsPagina();
-  const motos = await yapo_motos.scrapeDetailUrls(motos_url);
-  res.send({motos})
-})
-
-app.get("/workana/index", async(req, res, next) => {
-  const workana_jobs = await WorkanaJob.find({})
-  res.send({workana_jobs})
-})
-
-app.get("/workana/scrape", async(req, res, next) => {
-  const pages = req.query.pages;
-  console.log(pages);
-
-  const vueltas = pages ? Number(pages) : 1;
-  
-  let workana_jobs = [];
-  for (let i = 1; i <= vueltas; i++) {
-    const workana_url = `https://www.workana.com/jobs?category=it-programming&language=es&page=${i}`;
-    const { scrapedJobs } = await workana_job.scrapePage(workana_url);
-    workana_jobs = workana_jobs.concat(scrapedJobs);
-    // console.log(workana_jobs);
-  }
-  workana_job.insertWorkanaJobInMongoDb(workana_jobs);
-  // console.log(workana_jobs)
-  // bot.sendMessage(861511144, workana_jobs[0].titulo);
-  res.send({workana_jobs});
-})
-
-app.get("/nordstrom", async (req, res, next) => {
-  const numberOfTop = req.query.top;
-  const keyword = encodeURIComponent(req.query.keyword);
-  // res.send("Hello world");
-  const url = 
-    `https://query.ecommerce.api.nordstrom.com/api/queryresults/keywordsearch/?top=${numberOfTop}&IncludeFacets=false&Keyword=${keyword}`
-  console.log(url);
-  const json = await request.get(url);
-  res.setHeader("Content-Type", "application/json")
-  res.send(json)
 })
