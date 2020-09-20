@@ -25,7 +25,8 @@ async function insertWorkanaJobInMongoDb(jobs) {
         return newJob.save();
       }
     } catch(error) {
-
+      console.error(error);
+      return {}
     }
   });
   await Promise.all(promises);
@@ -89,4 +90,5 @@ async function main() {
 module.exports = {
   main,
   scrapePage,
+  insertWorkanaJobInMongoDb,
 }

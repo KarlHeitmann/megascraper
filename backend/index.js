@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const YapoMoto = require("./models/YapoMoto.js");
+const WorkanaJob = require("./models/WorkanaJob.js");
 require('dotenv').config()
 
 const yapo_motos = require('./scrapers/yapo_motos');
@@ -69,6 +70,11 @@ app.get("/motos/scrape", async(req, res, next) => {
   res.send({motos})
 })
 
+app.get("/workana/index", async(req, res, next) => {
+  const workana_jobs = await WorkanaJob.find({})
+  res.send({workana_jobs})
+})
+
 app.get("/workana/scrape", async(req, res, next) => {
   const pages = req.query.pages;
   console.log(pages);
@@ -82,6 +88,7 @@ app.get("/workana/scrape", async(req, res, next) => {
     workana_jobs = workana_jobs.concat(scrapedJobs);
     // console.log(workana_jobs);
   }
+  workana_job.insertWorkanaJobInMongoDb(workana_jobs);
   // console.log(workana_jobs)
   // bot.sendMessage(861511144, workana_jobs[0].titulo);
   res.send({workana_jobs});
