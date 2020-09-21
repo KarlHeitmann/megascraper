@@ -15,7 +15,7 @@ function parseDateSpanish(_date) {
   // ingles: 
   // September 20, 2020 17:24
   var momento_variable = moment(_date, format, 'es').toDate()
-  console.log(`::::::\n======\n${_date}\n=======\n:::::::::\n${momento_variable}`)
+  // console.log(`::::::\n======\n${_date}\n=======\n:::::::::\n${momento_variable}`)
   return momento_variable
 }
 
@@ -38,6 +38,7 @@ async function insertWorkanaJobInMongoDb(jobs) {
 
 async function scrapePage(_home_url) {
   const result = await request.get(_home_url);
+  console.log(result.slice(0,256))
   const $ = await cheerio.load(result)
   const scrapedJobs = []
   $('.project-item.js-project').each((index, element) => {
