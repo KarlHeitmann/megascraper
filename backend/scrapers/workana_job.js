@@ -9,12 +9,13 @@ const mongoose = require("mongoose");
 function filtrarPrecio(_precio) {
   return _precio.trim()
 }
-function parseDateSpanish(_date) {
+function parseDateSpanish(_date, _lenguaje) {
   // 04 Septiembre, 2020 19:02
-  var format = 'Do MMMM, YYYY h:mm';
+  var format_espanol = 'Do MMMM, YYYY h:mm';
   // ingles: 
   // September 20, 2020 17:24
-  var momento_variable = moment(_date, format, 'es').toDate()
+  var format_ingles = 'MMMM Do, YYYY h:mm';
+  var momento_variable = _lenguaje == 'es' ? moment(_date, format_espanol, 'es').toDate() :  moment(_date, format_ingles, 'en').toDate()
   // console.log(`::::::\n======\n${_date}\n=======\n:::::::::\n${momento_variable}`)
   return momento_variable
 }
@@ -39,8 +40,21 @@ async function insertWorkanaJobInMongoDb(jobs) {
 async function scrapePage(_home_url) {
   const result = await request.get(_home_url);
   console.log(result.slice(0,256))
+  /*
+  <html
+  lang="en"
+  xmlns:fb="http://ogp.me/ns/fb#"
+  prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+  */
   const $ = await cheerio.load(result)
   const scrapedJobs = []
+  const lenguaje = $('html').attr('lang')
+  console.log(lenguaje)
+  if (lenguaje == 'es') {
+    console.log("ESPANOL")
+  } else if (lenguaje == 'en') {
+    console.log("____ingles____")
+  }
   $('.project-item.js-project').each((index, element) => {
     let job = {
       titulo: null,
@@ -59,7 +73,8 @@ async function scrapePage(_home_url) {
         $(element).find('h4.budget').text()
       );
       job.fecha_publicacion = parseDateSpanish(
-        $(element).find('.date').attr('title')
+        $(element).find('.date').attr('title'),
+        lenguaje
       );
       job.deadline = $(element).find('.deadline').text().trim();
       job.propuestas = $(element).find('.bids').text().trim();
