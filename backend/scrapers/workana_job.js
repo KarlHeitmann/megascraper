@@ -12,8 +12,11 @@ function filtrarPrecio(_precio) {
 function parseDateSpanish(_date) {
   // 04 Septiembre, 2020 19:02
   var format = 'Do MMMM, YYYY h:mm';
-  console.log(`::::::\n======\n${_date}\n=======\n:::::::::`)
-  return moment(_date, format, 'es').toDate()
+  // ingles: 
+  // September 20, 2020 17:24
+  var momento_variable = moment(_date, format, 'es').toDate()
+  console.log(`::::::\n======\n${_date}\n=======\n:::::::::\n${momento_variable}`)
+  return momento_variable
 }
 
 async function insertWorkanaJobInMongoDb(jobs) {
