@@ -46,9 +46,13 @@ app.use(cors());
 //   }
 // });
 
+app.use(express.static('client/build'));
+
 app.use(routes);
 
-app.listen(4000, async () => {
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, async () => {
   console.log(process.env.MONGO_DB)
   await mongoose.connect(process.env.MONGO_DB, {
     useNewUrlParser: true,
