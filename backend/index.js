@@ -3,9 +3,10 @@ const mongoose = require("mongoose");
 require('dotenv').config()
 
 
-const TelegramBot = require('node-telegram-bot-api');
 const token_bot = process.env.SCRAPERO_BOT_KEY;
 const routes = require('./routes');
+/*
+const TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(token_bot, {polling: true});
 
 bot.onText(/\/echo (.+)/, (msg, match) => {
@@ -28,6 +29,7 @@ bot.on('message', (msg) => {
   // send a message to the chat acknowledging receipt of their message
   bot.sendMessage(chatId, 'Received your message');
 });
+*/
 
 
 const cors = require("cors");
