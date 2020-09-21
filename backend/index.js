@@ -42,16 +42,29 @@ if (token_bot) {
     // bot.sendMessage(msg.chat.id,'COMENZANDO')
   })
   
-  bot.onText(/\/guardar (.+)/, (msg, match) => {
+  bot.onText(/\/guardar (.+)/, async(msg, match) => {
     // 'msg' is the received Message from Telegram
     // 'match' is the result of executing the regexp above on the text content
     // of the message
   
     const chatId = msg.chat.id;
-    const resp = match[1]; // the captured "whatever"
-  
-    // send back the matched "whatever" to the chat
-    bot.sendMessage(chatId, resp);
+    const name = match[1]; // the captured "whatever"
+    const jobFromDb = await TelegramBotConfig.findOne({ chatId: chatId });
+    try {
+      if (!jobFromDb) {
+        // Aqui esta el error.
+        const telegram_bot_config = { name, chatId }
+        const newTelegramBotConfig = new TelegramBotConfig(telegram_bot_config);
+        console.log("Resultado de guardar TelegramBotConfig");
+        console.log(newTelegramBotConfig.save());
+        bot.sendMessage(chatId, "Guardado en la base de datos")
+      } else {
+        bot.sendMessage(chatId, "Ya estaba guardado, no se hizo nada")
+      }
+    } catch(error) {
+      console.error(error);
+      bot.sendMessage(chatId, "Error al guardar el usuario en la base de datos")
+    }
   });
   
   bot.on('message', async (msg) => {
