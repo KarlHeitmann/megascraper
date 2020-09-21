@@ -4,38 +4,65 @@ require('dotenv').config()
 
 const workana_job = require('./scrapers/workana_job');
 
-const token_bot = process.env.SCRAPERO_BOT_KEY;
 const routes = require('./routes');
-/*
 const TelegramBot = require('node-telegram-bot-api');
-const bot = new TelegramBot(token_bot, {polling: true});
-
-bot.onText(/\/echo (.+)/, (msg, match) => {
-  // 'msg' is the received Message from Telegram
-  // 'match' is the result of executing the regexp above on the text content
-  // of the message
-
-  const chatId = msg.chat.id;
-  const resp = match[1]; // the captured "whatever"
-
-  // send back the matched "whatever" to the chat
-  bot.sendMessage(chatId, resp);
-});
-
-bot.on('message', (msg) => {
-  const chatId = msg.chat.id;
-  console.log("CHAT ID");
-  console.log(chatId);
-
-  // send a message to the chat acknowledging receipt of their message
-  bot.sendMessage(chatId, 'Received your message');
-});
-*/
-
-
 const cors = require("cors");
+
+const TelegramBotConfig = require("./models/TelegramBotConfig");
+
 const app = express();
 app.use(cors());
+
+const token_bot = process.env.SCRAPERO_BOT_KEY;
+
+let bot
+if (token_bot) {
+  bot = new TelegramBot(token_bot, {polling: true});
+
+  bot.onText(/\/start/, (msg, match) => {
+    bot.sendMessage(msg.chat.id, 'COMENZANDO')
+  })
+  
+  bot.onText(/\/echo (.+)/, (msg, match) => {
+    // 'msg' is the received Message from Telegram
+    // 'match' is the result of executing the regexp above on the text content
+    // of the message
+  
+    const chatId = msg.chat.id;
+    const resp = match[1]; // the captured "whatever"
+  
+    // send back the matched "whatever" to the chat
+    bot.sendMessage(chatId, resp);
+  });
+  
+  bot.on('message', async (msg) => {
+    const chatId = msg.chat.id;
+    console.log("CHAT ID");
+    console.log(chatId);
+
+    // const all_configs = await TelegramBotConfig.findOne({})
+    const all_configs = await TelegramBotConfig.find({})
+
+    
+    console.log(all_configs)
+    // all_configs.forEach(element => {
+    //   console.log(element)
+    // });
+
+  
+    // send a message to the chat acknowledging receipt of their message
+    if (all_configs.length) {
+      bot.sendMessage(chatId, `Received your message ${all_configs}`);
+    } else {
+      bot.sendMessage(chatId, `Received your message ${all_configs}`);
+
+    }
+    // bot.sendMessage(chatId, all_configs);
+  });
+} else {
+  console.log("NO HAY TELEGRAM BOT PORQUE FALTA SU LLAVE");
+}
+
 // Authenticated client, can make signed calls
 
 // console.log(process.env.API_KEY)
