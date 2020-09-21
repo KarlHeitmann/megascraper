@@ -1,6 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const YapoMoto = require("./models/YapoMoto.js");
 require('dotenv').config()
 
 
@@ -56,11 +55,4 @@ app.listen(4000, async () => {
     useUnifiedTopology: true
   })
   console.log("Server running on port: 4000");
-})
-
-app.get("/", async (req, res, next) => {
-  // const symbol = req.query.symbol;
-  console.log("wena")
-  const motos = await YapoMoto.find({})
-  res.send({motos})
 })
