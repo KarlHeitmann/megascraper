@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 require('dotenv').config()
 
+const workana_job = require('./scrapers/workana_job');
 
 const token_bot = process.env.SCRAPERO_BOT_KEY;
 const routes = require('./routes');
@@ -53,6 +54,7 @@ app.use(express.static('client/build'));
 app.use(routes);
 
 const PORT = process.env.PORT || 4000;
+const INTERVALO = process.env.INTERVALO || 60000
 
 app.listen(PORT, async () => {
   console.log(process.env.MONGO_DB)
@@ -60,5 +62,19 @@ app.listen(PORT, async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
+  setInterval(async function() {
+    console.log("Lanzando scraper");
+    const workana_url = `https://www.workana.com/jobs?category=it-programming&language=es&page=1`;
+    const { scrapedJobs } = await workana_job.scrapePage(workana_url);
+    console.log("Scrapeado");
+    workana_job.insertWorkanaJobInMongoDb(scrapedJobs);
+    console.log("Terminado el scraping");
+  //code for the drums playing goes here
+  // 600000 = 1 minuto
+  //  60000 = 1 minuto
+  //   1000 = 1 segundo
+  },  INTERVALO);
+  // }, 600000);
+
   console.log("Server running on port: 4000");
 })
