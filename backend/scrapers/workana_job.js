@@ -39,7 +39,7 @@ async function insertWorkanaJobInMongoDb(jobs) {
 
 async function scrapePage(_home_url) {
   const result = await request.get(_home_url);
-  console.log(result.slice(0,256))
+  // console.log(result.slice(0,256))
   /*
   <html
   lang="en"
@@ -49,7 +49,7 @@ async function scrapePage(_home_url) {
   const $ = await cheerio.load(result)
   const scrapedJobs = []
   const lenguaje = $('html').attr('lang')
-  console.log(lenguaje)
+  // console.log(lenguaje)
   if (lenguaje == 'es') {
     console.log("ESPANOL")
   } else if (lenguaje == 'en') {
