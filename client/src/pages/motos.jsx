@@ -4,6 +4,7 @@ import {
   Button,
 } from 'antd';
 import axios from 'axios';
+import { DOMAIN } from '../utils';
 
 function Motos(props) {
   const [motos, setMotos] = useState([]);
@@ -91,7 +92,7 @@ function Motos(props) {
 
   useEffect(() => {
     console.log("useEffect");
-    const url_request = `/api/yapomotos`;
+    const url_request = `${DOMAIN}/api/yapomotos`;
     axios.get(url_request)
       .then(response => {
         const motos = response.data;
@@ -102,7 +103,7 @@ function Motos(props) {
 
   const onBtnScrape = () => {
     console.log("onBtnScrape")
-    const url_request = `/scrapers/motos`;
+    const url_request = `${DOMAIN}/scrapers/motos`;
     axios.get(url_request)
       .then(response => {
         const { motos } = response.data;

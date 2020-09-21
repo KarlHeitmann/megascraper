@@ -3,6 +3,7 @@ import {
   Table,
 } from 'antd';
 import axios from 'axios';
+import { DOMAIN } from '../utils';
 
 import workana_jobs_columns from '../table_columnas/workana_jobs';
 
@@ -11,7 +12,7 @@ function WorkanaMongo(props) {
   useEffect(() => {
 
     console.log("useEffect");
-    const url_request = `/api/workana`;
+    const url_request = `${DOMAIN}/api/workana`;
     axios.get(url_request)
       .then(response => {
         console.log(response)

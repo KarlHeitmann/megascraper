@@ -7,9 +7,9 @@ const workana_job = require('./scrapers/workana_job');
 const routes = require('./routes');
 const TelegramBot = require('node-telegram-bot-api');
 const WorkanaJob = require('./models/WorkanaJob');
+const TelegramBotConfig = require("./models/TelegramBotConfig");
 const cors = require("cors");
 
-const TelegramBotConfig = require("./models/TelegramBotConfig");
 
 const app = express();
 app.use(cors());
@@ -137,6 +137,16 @@ const scrapearYBuscar = async() => {
     // { "name" : { $regex: /Ghost/, $options: 'i' } }
     { "descripcion" : { $regex: /.*crap.*/, $options: 'i' } }
   )
+  const cuentas = await TelegramBotConfig.find({});
+  let texto = ""
+  matches.forEach(match => {
+    texto += `Titulo: ${match.titulo}\nurl: ${match.url}\nprecio: ${match.precio}\n\n`
+  })
+  cuentas.forEach(cuenta => {
+    // bot.sendMessage(861511144, workana_jobs[0].titulo);
+    bot.sendMessage(cuenta.chatId, texto);
+  });
+  
   console.log(matches)
 
 }
@@ -147,7 +157,7 @@ app.listen(PORT, async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
-  scrapearYBuscar()
+  // scrapearYBuscar()
   setInterval(async function() {
     console.log("Lanzando scraper");
     scrapearYBuscar()
