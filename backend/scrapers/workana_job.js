@@ -12,7 +12,7 @@ function filtrarPrecio(_precio) {
 function parseDateSpanish(_date) {
   // 04 Septiembre, 2020 19:02
   var format = 'Do MMMM, YYYY h:mm';
-
+  console.log(`::::::\n======\n${_date}\n=======\n:::::::::`)
   return moment(_date, format, 'es').toDate()
 }
 
@@ -21,6 +21,7 @@ async function insertWorkanaJobInMongoDb(jobs) {
     const jobFromDb = await WorkanaJob.findOne({ url: job.url });
     try {
       if (!jobFromDb) {
+        // Aqui esta el error.
         const newJob = new WorkanaJob(job);
         return newJob.save();
       }
