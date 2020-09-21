@@ -9,6 +9,18 @@ const workanaJobSchema = new mongoose.Schema({
   deadline: String,
   propuestas: String,
 });
+// WorkanaJob.statics.findByName = function (name, cb) {
+workanaJobSchema.statics.filtrar = function () {
+  // const matches = await WorkanaJob.find(
+  //   // { "name" : { $regex: /Ghost/, $options: 'i' } }
+  //   { "descripcion" : { $regex: /.*crap.*/, $options: 'i' } }
+  // )
+  return this.find({ 
+      // name: new RegExp(name, 'i') 
+    "descripcion" : { $regex: /.*crap.*/, $options: 'i' }
+  });
+}
+
 const WorkanaJob = mongoose.model("WorkanaJob", workanaJobSchema);
 
 module.exports = WorkanaJob;

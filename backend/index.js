@@ -133,10 +133,12 @@ const scrapearYBuscar = async() => {
   workana_job.insertWorkanaJobInMongoDb(scrapedJobs);
   console.log("Terminado el scraping");
   console.log("Scrapeado los jobs, buscando job que haga match");
-  const matches = await WorkanaJob.find(
-    // { "name" : { $regex: /Ghost/, $options: 'i' } }
-    { "descripcion" : { $regex: /.*crap.*/, $options: 'i' } }
-  )
+  // const matches = await WorkanaJob.find(
+  //   // { "name" : { $regex: /Ghost/, $options: 'i' } }
+  //   { "descripcion" : { $regex: /.*crap.*/, $options: 'i' } }
+  // )
+  const matches = await WorkanaJob.filtrar()
+  console.log(matches)
   const cuentas = await TelegramBotConfig.find({});
   let texto = ""
   matches.forEach(match => {
@@ -157,7 +159,7 @@ app.listen(PORT, async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
-  // scrapearYBuscar()
+  scrapearYBuscar()
   setInterval(async function() {
     console.log("Lanzando scraper");
     scrapearYBuscar()
