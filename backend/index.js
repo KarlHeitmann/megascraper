@@ -6,6 +6,7 @@ const workana_job = require('./scrapers/workana_job');
 
 const routes = require('./routes');
 const TelegramBot = require('node-telegram-bot-api');
+const WorkanaJob = require('./models/WorkanaJob');
 const cors = require("cors");
 
 const TelegramBotConfig = require("./models/TelegramBotConfig");
@@ -124,19 +125,32 @@ app.use(routes);
 const PORT = process.env.PORT || 4000;
 const INTERVALO = process.env.INTERVALO || 600000
 
+const scrapearYBuscar = async() => {
+
+  const workana_url = `https://www.workana.com/jobs?category=it-programming&language=es&page=1`;
+  const { scrapedJobs } = await workana_job.scrapePage(workana_url);
+  console.log("Scrapeado");
+  workana_job.insertWorkanaJobInMongoDb(scrapedJobs);
+  console.log("Terminado el scraping");
+  console.log("Scrapeado los jobs, buscando job que haga match");
+  const matches = await WorkanaJob.find(
+    // { "name" : { $regex: /Ghost/, $options: 'i' } }
+    { "descripcion" : { $regex: /.*crap.*/, $options: 'i' } }
+  )
+  console.log(matches)
+
+}
+
 app.listen(PORT, async () => {
   console.log(process.env.MONGO_DB)
   await mongoose.connect(process.env.MONGO_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
+  scrapearYBuscar()
   setInterval(async function() {
     console.log("Lanzando scraper");
-    const workana_url = `https://www.workana.com/jobs?category=it-programming&language=es&page=1`;
-    const { scrapedJobs } = await workana_job.scrapePage(workana_url);
-    console.log("Scrapeado");
-    workana_job.insertWorkanaJobInMongoDb(scrapedJobs);
-    console.log("Terminado el scraping");
+    scrapearYBuscar()
   //code for the drums playing goes here
   // 600000 = 1 minuto
   //  60000 = 1 minuto

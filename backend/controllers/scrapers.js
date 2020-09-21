@@ -1,5 +1,6 @@
 const workana_job = require('../scrapers/workana_job');
 const yapo_motos = require('../scrapers/yapo_motos');
+const WorkanaJob = require("../models/WorkanaJob");
 
 // TODO XXX: Quizas sea importante eliminar aqui los await, y reemplazarlos por
 // las promesas
