@@ -19,11 +19,30 @@ let bot
 if (token_bot) {
   bot = new TelegramBot(token_bot, {polling: true});
 
-  bot.onText(/\/start/, (msg, match) => {
-    bot.sendMessage(msg.chat.id, 'COMENZANDO')
+  bot.onText(/\/start/, async (msg, match) => {
+    const all_configs = await TelegramBotConfig.find({})
+    console.log(all_configs)
+    // all_configs.forEach(element => {
+    //   console.log(element)
+    // });
+
+  
+    // send a message to the chat acknowledging receipt of their message
+    if (all_configs.length) {
+      let mensaje = "Bienvenido\nLista de configuraciones guardadas"
+      for (let i = 0; i < all_configs.length; i++) {
+        const element = all_configs[i];
+        mensaje = mensaje + element['name'] + ' - ' + element['codigo'];
+      }
+      bot.sendMessage(msg.chat.id, mensaje);
+    } else {
+      bot.sendMessage(msg.chat.id, `No tiene configuraciones guardadas`);
+
+    }
+    // bot.sendMessage(msg.chat.id,'COMENZANDO')
   })
   
-  bot.onText(/\/echo (.+)/, (msg, match) => {
+  bot.onText(/\/guardar (.+)/, (msg, match) => {
     // 'msg' is the received Message from Telegram
     // 'match' is the result of executing the regexp above on the text content
     // of the message
@@ -41,22 +60,6 @@ if (token_bot) {
     console.log(chatId);
 
     // const all_configs = await TelegramBotConfig.findOne({})
-    const all_configs = await TelegramBotConfig.find({})
-
-    
-    console.log(all_configs)
-    // all_configs.forEach(element => {
-    //   console.log(element)
-    // });
-
-  
-    // send a message to the chat acknowledging receipt of their message
-    if (all_configs.length) {
-      bot.sendMessage(chatId, `Received your message ${all_configs}`);
-    } else {
-      bot.sendMessage(chatId, `Received your message ${all_configs}`);
-
-    }
     // bot.sendMessage(chatId, all_configs);
   });
 } else {
@@ -81,7 +84,7 @@ app.use(express.static('client/build'));
 app.use(routes);
 
 const PORT = process.env.PORT || 4000;
-const INTERVALO = process.env.INTERVALO || 60000
+const INTERVALO = process.env.INTERVALO || 600000
 
 app.listen(PORT, async () => {
   console.log(process.env.MONGO_DB)
