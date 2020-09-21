@@ -11,7 +11,7 @@ function WorkanaMongo(props) {
   useEffect(() => {
 
     console.log("useEffect");
-    const url_request = `http://localhost:4000/api/workana`;
+    const url_request = `/api/workana`;
     axios.get(url_request)
       .then(response => {
         console.log(response)

@@ -91,7 +91,7 @@ function Motos(props) {
 
   useEffect(() => {
     console.log("useEffect");
-    const url_request = `http://localhost:4000/api/yapomotos`;
+    const url_request = `/api/yapomotos`;
     axios.get(url_request)
       .then(response => {
         const motos = response.data;
@@ -102,7 +102,7 @@ function Motos(props) {
 
   const onBtnScrape = () => {
     console.log("onBtnScrape")
-    const url_request = `http://localhost:4000/scrapers/motos`;
+    const url_request = `/scrapers/motos`;
     axios.get(url_request)
       .then(response => {
         const { motos } = response.data;
