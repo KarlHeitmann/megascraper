@@ -3,13 +3,18 @@ const WorkanaJob = require("../models/WorkanaJob");
 
 function inicializarBot(bot) {
   bot.onText(/\/disable (.+)/, async(msg, match) => {
+    console.log("DISABLE")
     const accounts = await TelegramBotConfig.find({})
     const workana_jobs = await WorkanaJob.filtrarScraper()
 
+
     let texto = ''
     workana_jobs.forEach(workana_job => {
-      texto += `Titulo: ${workana_job.titulo}\nurl: ${workana_job.url}\nprecio: ${match.precio}\n\n`
+      texto += `Deshabilitado: ${workana_job.deshabilitado}\nTitulo: ${workana_job.titulo}\nurl: ${workana_job.url}\nprecio: ${match.precio}\n\n`
     });
+    // workana_jobs[]
+
+    console.log(accounts)
 
     accounts.forEach(account => {
       bot.sendMessage(account.chatId, texto)

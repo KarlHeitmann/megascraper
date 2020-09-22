@@ -61,6 +61,15 @@ const workana_jobs_columns = [
               })
           }}
           >Delete</Button>
+        <Button onClick={() => {
+            console.log("click")
+            const url_request = `${DOMAIN}/api/workana/${record._id}`;
+            axios.put(url_request, {deshabilitado: true})
+              .then(response => {
+                console.log(response)
+              })
+          }}
+          >Deshabilitar</Button>
       </Space>
     ),
   },
