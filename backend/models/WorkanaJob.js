@@ -15,9 +15,18 @@ workanaJobSchema.statics.filtrar = function () {
   //   // { "name" : { $regex: /Ghost/, $options: 'i' } }
   //   { "descripcion" : { $regex: /.*crap.*/, $options: 'i' } }
   // )
-  return this.find({ 
+
+  // return this.find({ 
+  //     // name: new RegExp(name, 'i') 
+  //   // "descripcion" : { $regex: /.*crap.*/, $options: 'i' }
+  //   "descripcion" : { $regex: /.*ext.*/, $options: 'i' }
+  // });
+
+  return this.find({ $or: [
+    { "descripcion" : { $regex: /.*crap.*/, $options: 'i' } },
+    { "descripcion" : { $regex: /.*externo.*/, $options: 'i' } }
+  ]
       // name: new RegExp(name, 'i') 
-    "descripcion" : { $regex: /.*crap.*/, $options: 'i' }
   });
 }
 
