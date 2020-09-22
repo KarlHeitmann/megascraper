@@ -22,57 +22,52 @@ function inicializarBot(bot) {
 
     // bot.editMessageText(text, opts);
   });
-  // bot.on('callback_query', function onCallbackQuery(callbackQuery) {
-  //   console.log("callback_query")
-  //   const data = JSON.parse(callbackQuery.data);
-  //   const opts = {
-  //     chat_id: callbackQuery.message.chat.id,
-  //     message_id: callbackQuery.message.message_id,
-  //   };
-  //   console.log("bla bla bla")
-  //   if (data.command === 'price') {
-  //     console.log("1")
-  //     // getTicker('ETP', data.base)
-  //     //   .then(ticker => {
-  //     //     console.log("2")
-  //     //     bot.sendMessage(opts.chat_id, `The current price of ETP is: ${ticker.price} ${data.base}`);
-  //     //     bot.answerCallbackQuery(callbackQuery.id);
-  //     //   })
-  //     //   .catch(error => {
-  //     //     console.log("3")
-  //     //     bot.sendMessage(opts.chat_id, 'Not found');
-  //     //     bot.answerCallbackQuery(callbackQuery.id);
-  //     //   });
-  //     console.log("---")
-  //   }
-  //   console.log("fin")
-  // });
 
   bot.onText(/\/ver/, async(msg, match) => {
     const accounts = await TelegramBotConfig.find({})
+    const workana_jobs = await WorkanaJob.filtrarScraper()
+    let texto = ''
+    workana_jobs.forEach(workana_job => {
+      texto += `Deshabilitado: ${workana_job.deshabilitado}\nTitulo: ${workana_job.titulo}\nurl: ${workana_job.url}\nprecio: ${match.precio}\n\n`
+    });
+    botones = workana_jobs.map(workana_job => {
+      return {
+        text: workana_job.titulo,
+        callback_data: JSON.stringify({
+          'command': 'inhabilitar',
+          '_id': workana_job._id
+        })
+      }
+    })
+    // console.log(botones)
     const opts = {
       reply_markup: {
-        inline_keyboard: [
-          [
-            {
-              text: 'EUR',
-              callback_data: JSON.stringify({
-                'command': 'price',
-                'base': 'EUR'
-              })
-            },
-            {
-              text: 'USD',
-              callback_data: JSON.stringify({
-                'command': 'price',
-                'base': 'USD'
-              })
-            }
-          ]
-        ]
+        inline_keyboard: [ botones ]
       }
-    };
-    bot.sendMessage(msg.chat.id, 'Choose currency', opts);
+    }
+    // const opts = {
+    //   reply_markup: {
+    //     inline_keyboard: [
+    //       [
+    //         {
+    //           text: 'EUR',
+    //           callback_data: JSON.stringify({
+    //             'command': 'price',
+    //             'base': 'EUR'
+    //           })
+    //         },
+    //         {
+    //           text: 'USD',
+    //           callback_data: JSON.stringify({
+    //             'command': 'price',
+    //             'base': 'USD'
+    //           })
+    //         }
+    //       ]
+    //     ]
+    //   }
+    // };
+    bot.sendMessage(msg.chat.id, texto, opts);
   })
   bot.onText(/\/disable (.+)/, async(msg, match) => {
     console.log("DISABLE")
