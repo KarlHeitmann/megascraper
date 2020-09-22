@@ -23,22 +23,27 @@ function inicializarBot(bot) {
     if (action.command == 'inhabilitar') {
       // const wj = await WorkanaJob.findById(action._id)
       const wj = await WorkanaJob.findOneAndUpdate({ _id: action._id }, {deshabilitado: true})
-
       console.log(wj)
       bot.sendMessage(msg.chat.id, `inhabilitado ${wj.url}`);
+    } else if (action.command == 'habilitar') {
+      // const wj = await WorkanaJob.findById(action._id)
+      const wj = await WorkanaJob.findOneAndUpdate({ _id: action._id }, {deshabilitado: false})
+      console.log(wj)
+      bot.sendMessage(msg.chat.id, `habilitado ${wj.url}`);
     }
 
     // bot.editMessageText(text, opts);
   });
 
   bot.onText(/\/ver/, async(msg, match) => {
-    const accounts = await TelegramBotConfig.find({})
-    const workana_jobs = await WorkanaJob.filtrarScraper()
+    // const accounts = await TelegramBotConfig.find({})
+    const workana_jobs = await WorkanaJob.filtrarScraperTodos()
     let texto = 'LISTA:\n'
     workana_jobs.forEach(workana_job => {
       texto += `Deshabilitado: ${workana_job.deshabilitado}\nTitulo: ${workana_job.titulo}\nurl: ${workana_job.url}\nprecio: ${match.precio}\n\n`
     });
     botones = workana_jobs.map(workana_job => {
+      const comando = workana_job.deshabilitado ? 'habilitar' : 'inhabilitar';
       return {
         text: workana_job.titulo,
         // callback_data: {
@@ -46,7 +51,7 @@ function inicializarBot(bot) {
         //   '_id': workana_job._id
         // }
         callback_data: JSON.stringify({
-          'command': 'inhabilitar',
+          'command': comando,
           '_id': workana_job._id
         })
       }

@@ -47,6 +47,19 @@ workanaJobSchema.statics.filtrarScraper = function () {
   // );
 }
 
+workanaJobSchema.statics.filtrarScraperTodos = function () {
+  return this.find(
+    {
+      $or: [
+        { "descripcion" : { $regex: /.*scrap.*/, $options: 'i' } },
+        { "descripcion" : { $regex: /.*extraer.*/, $options: 'i' } },
+        { "titulo" : { $regex: /.*scrap.*/, $options: 'i' } },
+        { "titulo" : { $regex: /.*extraer.*/, $options: 'i' } },
+      ]
+    }
+  );
+}
+
 const WorkanaJob = mongoose.model("WorkanaJob", workanaJobSchema);
 
 module.exports = WorkanaJob;
