@@ -10,6 +10,8 @@ import {
 import axios from 'axios';
 
 import workana_jobs_columns from '../table_columnas/workana_jobs';
+import { DOMAIN } from '../utils';
+
 
 const layout = {
   labelCol: { span: 8 },
@@ -22,12 +24,11 @@ const tailLayout = {
 function WorkanaJobs(props) {
   const [workana_jobs, setWorkanaJobs] = useState([])
   
-
   const onBtnScrape = (values) => {
     console.log("onBtnScrape");
     console.log(values);
     const { pages } = values
-    const url_request = `/scrapers/workana${pages ? "?pages=" + pages : "" }`;
+    const url_request = `${DOMAIN}/scrapers/workana${pages ? "?pages=" + pages : "" }`;
     axios.get(url_request)
       .then(response => {
         const { workana_jobs } = response.data;

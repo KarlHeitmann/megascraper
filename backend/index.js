@@ -1,41 +1,32 @@
 const express = require("express");
 const mongoose = require("mongoose");
+
 require('dotenv').config()
 
 const workana_job = require('./scrapers/workana_job');
 
-const token_bot = process.env.SCRAPERO_BOT_KEY;
 const routes = require('./routes');
-/*
 const TelegramBot = require('node-telegram-bot-api');
-const bot = new TelegramBot(token_bot, {polling: true});
-
-bot.onText(/\/echo (.+)/, (msg, match) => {
-  // 'msg' is the received Message from Telegram
-  // 'match' is the result of executing the regexp above on the text content
-  // of the message
-
-  const chatId = msg.chat.id;
-  const resp = match[1]; // the captured "whatever"
-
-  // send back the matched "whatever" to the chat
-  bot.sendMessage(chatId, resp);
-});
-
-bot.on('message', (msg) => {
-  const chatId = msg.chat.id;
-  console.log("CHAT ID");
-  console.log(chatId);
-
-  // send a message to the chat acknowledging receipt of their message
-  bot.sendMessage(chatId, 'Received your message');
-});
-*/
-
-
+const WorkanaJob = require('./models/WorkanaJob');
+const TelegramBotConfig = require("./models/TelegramBotConfig");
 const cors = require("cors");
+const { inicializarBot } = require("./telegram/bot");
+
+
 const app = express();
 app.use(cors());
+
+const token_bot = process.env.SCRAPERO_BOT_KEY;
+
+let bot
+if (token_bot) {
+  bot = new TelegramBot(token_bot, {polling: true});
+  console.log("TIENE BOT")
+  inicializarBot(bot)
+} else {
+  console.log("NO HAY TELEGRAM BOT PORQUE FALTA SU LLAVE");
+}
+
 // Authenticated client, can make signed calls
 
 // console.log(process.env.API_KEY)
@@ -54,7 +45,35 @@ app.use(express.static('client/build'));
 app.use(routes);
 
 const PORT = process.env.PORT || 4000;
-const INTERVALO = process.env.INTERVALO || 60000
+const INTERVALO = process.env.INTERVALO || 600000
+
+const scrapearYBuscar = async() => {
+
+  const workana_url = `https://www.workana.com/jobs?category=it-programming&language=es&page=1`;
+  const { scrapedJobs } = await workana_job.scrapePage(workana_url);
+  console.log("Scrapeado");
+  workana_job.insertWorkanaJobInMongoDb(scrapedJobs);
+  console.log("Terminado el scraping");
+  console.log("Scrapeado los jobs, buscando job que haga match");
+  // const matches = await WorkanaJob.find(
+  //   // { "name" : { $regex: /Ghost/, $options: 'i' } }
+  //   { "descripcion" : { $regex: /.*crap.*/, $options: 'i' } }
+  // )
+  const matches = await WorkanaJob.filtrarScraper()
+  console.log(matches)
+  const cuentas = await TelegramBotConfig.find({});
+  let texto = ""
+  matches.forEach(match => {
+    texto += `Titulo: ${match.titulo}\nurl: ${match.url}\nprecio: ${match.precio}\n\n`
+  })
+  cuentas.forEach(cuenta => {
+    // bot.sendMessage(861511144, workana_jobs[0].titulo);
+    bot.sendMessage(cuenta.chatId, texto);
+  });
+  
+  console.log(matches)
+
+}
 
 app.listen(PORT, async () => {
   console.log(process.env.MONGO_DB)
@@ -62,13 +81,10 @@ app.listen(PORT, async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
+  // scrapearYBuscar()
   setInterval(async function() {
     console.log("Lanzando scraper");
-    const workana_url = `https://www.workana.com/jobs?category=it-programming&language=es&page=1`;
-    const { scrapedJobs } = await workana_job.scrapePage(workana_url);
-    console.log("Scrapeado");
-    workana_job.insertWorkanaJobInMongoDb(scrapedJobs);
-    console.log("Terminado el scraping");
+    scrapearYBuscar()
   //code for the drums playing goes here
   // 600000 = 1 minuto
   //  60000 = 1 minuto

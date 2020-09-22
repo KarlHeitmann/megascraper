@@ -1,4 +1,11 @@
 import React from 'react';
+import {
+  Space,
+  Button,
+} from 'antd';
+import axios from 'axios';
+import { DOMAIN } from '../utils';
+
 
 const workana_jobs_columns = [
   {
@@ -38,6 +45,33 @@ const workana_jobs_columns = [
     title: 'Deadline',
     dataIndex: 'deadline',
     key: 'deadline',
+  },
+  {
+    title: 'Action',
+    key: 'action',
+    render: (text, record) => (
+      <Space size="middle">
+        {/* <a>Invite {record.url}</a> */}
+        <Button onClick={() => {
+            console.log("click")
+            const url_request = `${DOMAIN}/api/workana/${record._id}`;
+            axios.delete(url_request)
+              .then(response => {
+                console.log(response)
+              })
+          }}
+          >Delete</Button>
+        <Button onClick={() => {
+            console.log("click")
+            const url_request = `${DOMAIN}/api/workana/${record._id}`;
+            axios.put(url_request, {deshabilitado: true})
+              .then(response => {
+                console.log(response)
+              })
+          }}
+          >Deshabilitar</Button>
+      </Space>
+    ),
   },
 ];
 
