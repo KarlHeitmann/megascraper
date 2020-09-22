@@ -68,7 +68,15 @@ async function scrapePage(_home_url) {
     try {
       const h2 = $(element).find('h2');
       job.titulo = h2.text().trim();
-      job.url = 'https://www.workana.com' + $(h2).find('a').attr('href');
+      const url_bruto = 'https://www.workana.com' + $(h2).find('a').attr('href');
+      // console.log(url_bruto);
+      // if (uri.indexOf("?") > 0) {
+      //   var clean_uri = uri.substring(0, uri.indexOf("?"));
+      //   window.history.replaceState({}, document.title, clean_uri);
+      // }
+      const url_clean = url_bruto.indexOf("?") > 0 ? url_bruto.substring(0, url_bruto.indexOf("?")) : url_bruto;
+      job.url = url_clean;
+      // console.log(job.url)
       job.precio = filtrarPrecio(
         $(element).find('h4.budget').text()
       );
@@ -100,11 +108,11 @@ async function main() {
   // const home_url = "https://www.workana.com/jobs?category=it-programming&language=es"
   const home_url = "https://www.workana.com/jobs?category=it-programming&language=es&page=1";
   const { scrapedJobs } = await scrapePage(home_url);
-  console.log(scrapedJobs)
+  // console.log(scrapedJobs)
   await mongoose.connect(process.env.MONGO_ATLAS_URL, { useNewUrlParser: true, useUnifiedTopology: true });
   await insertWorkanaJobInMongoDb(scrapedJobs);
   mongoose.disconnect();
-  console.log(scrapedJobs);
+  // console.log(scrapedJobs);
 }
 
 module.exports = {
