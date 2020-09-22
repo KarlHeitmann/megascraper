@@ -12,7 +12,7 @@ function WorkanaMongo(props) {
   useEffect(() => {
 
     console.log("useEffect");
-    const url_request = `${DOMAIN}/api/workana/filtrar`;
+    const url_request = `${DOMAIN}/api/workana/filtrar_scraper`;
     // const url_request = `${DOMAIN}/api/workana`;
     axios.get(url_request)
       .then(response => {

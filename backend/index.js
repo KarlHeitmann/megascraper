@@ -22,24 +22,24 @@ if (token_bot) {
 
   bot.onText(/\/start/, async (msg, match) => {
     const all_configs = await TelegramBotConfig.find({})
-    console.log(all_configs)
     // all_configs.forEach(element => {
     //   console.log(element)
     // });
 
   
     // send a message to the chat acknowledging receipt of their message
+    let mensaje = "Bienvenido\nLista de configuraciones guardadas:\n"
     if (all_configs.length) {
-      let mensaje = "Bienvenido\nLista de configuraciones guardadas"
       for (let i = 0; i < all_configs.length; i++) {
         const element = all_configs[i];
-        mensaje = mensaje + element['name'] + ' - ' + element['codigo'];
+        mensaje = mensaje + element['name'] + ' - ' + element['chatId'];
       }
-      bot.sendMessage(msg.chat.id, mensaje);
     } else {
-      bot.sendMessage(msg.chat.id, `No tiene configuraciones guardadas`);
-
+      mensaje = mensaje + "\nNo tiene configuraciones guardadas"
+      
     }
+    mensaje = mensaje + '\n\nOpciones:\n\/guardar texto: guardar mi chat para notificaciones\n\/borrar: me borra de la lista para notificaciones'
+    bot.sendMessage(msg.chat.id, mensaje);
     // bot.sendMessage(msg.chat.id,'COMENZANDO')
   })
   
@@ -137,7 +137,7 @@ const scrapearYBuscar = async() => {
   //   // { "name" : { $regex: /Ghost/, $options: 'i' } }
   //   { "descripcion" : { $regex: /.*crap.*/, $options: 'i' } }
   // )
-  const matches = await WorkanaJob.filtrar()
+  const matches = await WorkanaJob.filtrarScraper()
   console.log(matches)
   const cuentas = await TelegramBotConfig.find({});
   let texto = ""
@@ -159,7 +159,7 @@ app.listen(PORT, async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
-  // scrapearYBuscar()
+  scrapearYBuscar()
   setInterval(async function() {
     console.log("Lanzando scraper");
     scrapearYBuscar()

@@ -7,8 +7,8 @@ router
 	.post(workanaController.create);
 
 router
-	.route('/filtrar')
-	.get(workanaController.filtrar);
+	.route('/filtrar_scraper')
+	.get(workanaController.filtrarScraper);
 
 router
 	.route('/:id')
