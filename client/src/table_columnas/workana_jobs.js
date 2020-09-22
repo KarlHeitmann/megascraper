@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  Space,
+  Button,
+} from 'antd';
+
 
 const workana_jobs_columns = [
   {
@@ -38,6 +43,16 @@ const workana_jobs_columns = [
     title: 'Deadline',
     dataIndex: 'deadline',
     key: 'deadline',
+  },
+  {
+    title: 'Action',
+    key: 'action',
+    render: (text, record) => (
+      <Space size="middle">
+        {/* <a>Invite {record.url}</a> */}
+        <Button onClick={() => {console.log("click")}}>Delete</Button>
+      </Space>
+    ),
   },
 ];
 
