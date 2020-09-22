@@ -21,7 +21,8 @@ function inicializarBot(bot) {
     console.log(callbackQuery)
     console.log(action)
     if (action.command == 'inhabilitar') {
-      const wj = await WorkanaJob.findById(action._id)
+      // const wj = await WorkanaJob.findById(action._id)
+      const wj = await WorkanaJob.findOneAndUpdate({ _id: action._id }, {deshabilitado: true})
 
       console.log(wj)
       bot.sendMessage(msg.chat.id, `inhabilitado ${wj.url}`);
@@ -33,7 +34,7 @@ function inicializarBot(bot) {
   bot.onText(/\/ver/, async(msg, match) => {
     const accounts = await TelegramBotConfig.find({})
     const workana_jobs = await WorkanaJob.filtrarScraper()
-    let texto = ''
+    let texto = 'LISTA:\n'
     workana_jobs.forEach(workana_job => {
       texto += `Deshabilitado: ${workana_job.deshabilitado}\nTitulo: ${workana_job.titulo}\nurl: ${workana_job.url}\nprecio: ${match.precio}\n\n`
     });
