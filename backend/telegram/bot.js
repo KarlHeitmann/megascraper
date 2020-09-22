@@ -2,10 +2,10 @@ const TelegramBotConfig = require("../models/TelegramBotConfig");
 const WorkanaJob = require("../models/WorkanaJob");
 
 function inicializarBot(bot) {
-  bot.on('callback_query', function onCallbackQuery(callbackQuery) {
+  bot.on('callback_query', async function onCallbackQuery(callbackQuery) {
     // console.log(callback_query)
     console.log("inicio")
-    const action = callbackQuery.data;
+    const action = JSON.parse(callbackQuery.data);
     const msg = callbackQuery.message;
     console.log("inicio")
     const opts = {
@@ -19,6 +19,13 @@ function inicializarBot(bot) {
     }
     console.log("inicio")
     console.log(callbackQuery)
+    console.log(action)
+    if (action.command == 'inhabilitar') {
+      const wj = await WorkanaJob.findById(action._id)
+
+      console.log(wj)
+      bot.sendMessage(msg.chat.id, `inhabilitado ${wj.url}`);
+    }
 
     // bot.editMessageText(text, opts);
   });
@@ -33,6 +40,10 @@ function inicializarBot(bot) {
     botones = workana_jobs.map(workana_job => {
       return {
         text: workana_job.titulo,
+        // callback_data: {
+        //   'command': 'inhabilitar',
+        //   '_id': workana_job._id
+        // }
         callback_data: JSON.stringify({
           'command': 'inhabilitar',
           '_id': workana_job._id
@@ -45,28 +56,6 @@ function inicializarBot(bot) {
         inline_keyboard: [ botones ]
       }
     }
-    // const opts = {
-    //   reply_markup: {
-    //     inline_keyboard: [
-    //       [
-    //         {
-    //           text: 'EUR',
-    //           callback_data: JSON.stringify({
-    //             'command': 'price',
-    //             'base': 'EUR'
-    //           })
-    //         },
-    //         {
-    //           text: 'USD',
-    //           callback_data: JSON.stringify({
-    //             'command': 'price',
-    //             'base': 'USD'
-    //           })
-    //         }
-    //       ]
-    //     ]
-    //   }
-    // };
     bot.sendMessage(msg.chat.id, texto, opts);
   })
   bot.onText(/\/disable (.+)/, async(msg, match) => {
