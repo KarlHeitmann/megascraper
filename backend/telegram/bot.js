@@ -88,7 +88,7 @@ function inicializarBot(bot) {
       mensaje = mensaje + "\nNo tiene configuraciones guardadas"
       
     }
-    mensaje = mensaje + '\n\nOpciones:\n\/guardar texto: guardar mi chat para notificaciones\n\/borrar: me borra de la lista para notificaciones'
+    mensaje = mensaje + '\n\nOpciones:\n\/ver: Muestra los trabajos\n\/guardar texto: guardar mi chat para notificaciones\n\/borrar: me borra de la lista para notificaciones'
     bot.sendMessage(msg.chat.id, mensaje);
   })
   
