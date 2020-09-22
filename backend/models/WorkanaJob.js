@@ -18,7 +18,12 @@ workanaJobSchema.statics.filtrarScraper = function () {
   return this.find(
     { 
       $and: [
-        { deshabilitado: null },
+        {
+          $or: [
+            { deshabilitado: null },
+            { deshabilitado: false },
+          ]
+        },
         {
           $or: [
             { "descripcion" : { $regex: /.*scrap.*/, $options: 'i' } },
