@@ -7,9 +7,14 @@ router
 	.post(workanaController.create);
 
 router
+	.route('/filtrar')
+	.get(workanaController.filtrar);
+
+router
 	.route('/:id')
 	.get(workanaController.findById)
 	.put(workanaController.update)
 	.delete(workanaController.remove);
+
 
 module.exports = router;

@@ -159,7 +159,7 @@ app.listen(PORT, async () => {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
-  scrapearYBuscar()
+  // scrapearYBuscar()
   setInterval(async function() {
     console.log("Lanzando scraper");
     scrapearYBuscar()

@@ -29,5 +29,9 @@ module.exports = {
 			.then(book => book.remove())
 			.then(allbooks => res.json(allbooks))
 			.catch(err => res.status(422).json(err));
+	},
+	filtrar: function(req, res) {
+		WorkanaJob.filtrar()
+			.then(workana_jobs => res.json(workana_jobs))
 	}
 };
