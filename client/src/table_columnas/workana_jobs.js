@@ -3,6 +3,8 @@ import {
   Space,
   Button,
 } from 'antd';
+import axios from 'axios';
+import { DOMAIN } from '../utils';
 
 
 const workana_jobs_columns = [
@@ -50,7 +52,15 @@ const workana_jobs_columns = [
     render: (text, record) => (
       <Space size="middle">
         {/* <a>Invite {record.url}</a> */}
-        <Button onClick={() => {console.log("click")}}>Delete</Button>
+        <Button onClick={() => {
+            console.log("click")
+            const url_request = `${DOMAIN}/api/workana/${record._id}`;
+            axios.delete(url_request)
+              .then(response => {
+                console.log(response)
+              })
+          }}
+          >Delete</Button>
       </Space>
     ),
   },
