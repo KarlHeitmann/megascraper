@@ -2,6 +2,78 @@ const TelegramBotConfig = require("../models/TelegramBotConfig");
 const WorkanaJob = require("../models/WorkanaJob");
 
 function inicializarBot(bot) {
+  bot.on('callback_query', function onCallbackQuery(callbackQuery) {
+    // console.log(callback_query)
+    console.log("inicio")
+    const action = callbackQuery.data;
+    const msg = callbackQuery.message;
+    console.log("inicio")
+    const opts = {
+      chat_id: msg.chat.id,
+      message_id: msg.message_id,
+    };
+    let text;
+
+    if (action === 'edit') {
+      text = 'Edited Text';
+    }
+    console.log("inicio")
+    console.log(callbackQuery)
+
+    // bot.editMessageText(text, opts);
+  });
+  // bot.on('callback_query', function onCallbackQuery(callbackQuery) {
+  //   console.log("callback_query")
+  //   const data = JSON.parse(callbackQuery.data);
+  //   const opts = {
+  //     chat_id: callbackQuery.message.chat.id,
+  //     message_id: callbackQuery.message.message_id,
+  //   };
+  //   console.log("bla bla bla")
+  //   if (data.command === 'price') {
+  //     console.log("1")
+  //     // getTicker('ETP', data.base)
+  //     //   .then(ticker => {
+  //     //     console.log("2")
+  //     //     bot.sendMessage(opts.chat_id, `The current price of ETP is: ${ticker.price} ${data.base}`);
+  //     //     bot.answerCallbackQuery(callbackQuery.id);
+  //     //   })
+  //     //   .catch(error => {
+  //     //     console.log("3")
+  //     //     bot.sendMessage(opts.chat_id, 'Not found');
+  //     //     bot.answerCallbackQuery(callbackQuery.id);
+  //     //   });
+  //     console.log("---")
+  //   }
+  //   console.log("fin")
+  // });
+
+  bot.onText(/\/ver/, async(msg, match) => {
+    const accounts = await TelegramBotConfig.find({})
+    const opts = {
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: 'EUR',
+              callback_data: JSON.stringify({
+                'command': 'price',
+                'base': 'EUR'
+              })
+            },
+            {
+              text: 'USD',
+              callback_data: JSON.stringify({
+                'command': 'price',
+                'base': 'USD'
+              })
+            }
+          ]
+        ]
+      }
+    };
+    bot.sendMessage(msg.chat.id, 'Choose currency', opts);
+  })
   bot.onText(/\/disable (.+)/, async(msg, match) => {
     console.log("DISABLE")
     const accounts = await TelegramBotConfig.find({})
@@ -16,9 +88,7 @@ function inicializarBot(bot) {
 
     console.log(accounts)
 
-    accounts.forEach(account => {
-      bot.sendMessage(account.chatId, texto)
-    })
+    bot.sendMessage(msg.chat.id, texto)
   })
 
   bot.onText(/\/start/, async (msg, match) => {
