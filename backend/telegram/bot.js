@@ -38,7 +38,8 @@ function inicializarBot(bot) {
   bot.onText(/\/ver/, async(msg, match) => {
     // const accounts = await TelegramBotConfig.find({})
     const workana_jobs = await WorkanaJob.filtrarScraperTodos()
-    let texto = 'LISTA:\n'
+    const workana_jobs_count = await WorkanaJob.count()
+    let texto = `Numero de documentos: ${workana_jobs_count}\n`
     workana_jobs.forEach(workana_job => {
       texto += `Deshabilitado: ${workana_job.deshabilitado}\nTitulo: ${workana_job.titulo}\nurl: ${workana_job.url}\nprecio: ${match.precio}\n\n`
     });
