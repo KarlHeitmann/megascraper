@@ -1,14 +1,23 @@
 const TelegramBotConfig = require("../models/TelegramBotConfig");
+const WorkanaJob = require("../models/WorkanaJob");
 
 function inicializarBot(bot) {
+  bot.onText(/\/disable (.+)/, async(msg, match) => {
+    const accounts = await TelegramBotConfig.find({})
+    const workana_jobs = await WorkanaJob.filtrarScraper()
+
+    let texto = ''
+    workana_jobs.forEach(workana_job => {
+      texto += `Titulo: ${workana_job.titulo}\nurl: ${workana_job.url}\nprecio: ${match.precio}\n\n`
+    });
+
+    accounts.forEach(account => {
+      bot.sendMessage(account.chatId, texto)
+    })
+  })
+
   bot.onText(/\/start/, async (msg, match) => {
     const all_configs = await TelegramBotConfig.find({})
-    // all_configs.forEach(element => {
-    //   console.log(element)
-    // });
-
-  
-    // send a message to the chat acknowledging receipt of their message
     let mensaje = "Bienvenido\nLista de configuraciones guardadas:\n"
     if (all_configs.length) {
       for (let i = 0; i < all_configs.length; i++) {
@@ -21,7 +30,6 @@ function inicializarBot(bot) {
     }
     mensaje = mensaje + '\n\nOpciones:\n\/guardar texto: guardar mi chat para notificaciones\n\/borrar: me borra de la lista para notificaciones'
     bot.sendMessage(msg.chat.id, mensaje);
-    // bot.sendMessage(msg.chat.id,'COMENZANDO')
   })
   
   bot.onText(/\/guardar (.+)/, async(msg, match) => {
