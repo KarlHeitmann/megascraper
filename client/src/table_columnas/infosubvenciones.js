@@ -6,6 +6,15 @@ import {
 
 const infosubvenciones_columns = [
   {
+    title: 'detalles',
+    dataIndex: 'url',
+    key: '0',
+    render: (text, row, index) => {
+      const url_path = `https://www.infosubvenciones.es/bdnstrans/GE/es/convocatoria/${row[7]}`
+      return <a href={url_path}>{url_path}</a>
+    }
+  },
+  {
     title: 'Administracion',
     dataIndex: '1',
     key: '1',
