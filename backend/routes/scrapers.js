@@ -14,6 +14,8 @@ const scrapersController = require('../controllers/scrapers');
 
 router.route('/workana').get(scrapersController.workana)
 
+router.route('/extra').get(scrapersController.infosubvenciones)
+
 router.route("/motos").get(scrapersController.motos)
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const workana_job = require('../scrapers/workana_job');
 const yapo_motos = require('../scrapers/yapo_motos');
+const info_subvenciones = require('../scrapers/infosubvenciones');
 const WorkanaJob = require("../models/WorkanaJob");
 
 // TODO XXX: Quizas sea importante eliminar aqui los await, y reemplazarlos por
@@ -35,5 +36,13 @@ module.exports = {
         res.send({motos})
       })
     })
-  }
+  },
+  infosubvenciones: async function(req, res) {
+    info_subvenciones.initializeHeaders().then(headers => {
+      info_subvenciones.scrapeRoot(headers).then(data_result => {
+        console.log(data_result)
+        res.send(data_result)
+      })
+    })
+  },
 }
