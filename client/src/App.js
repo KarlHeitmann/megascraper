@@ -16,6 +16,7 @@ import MotosSidebar from './sidebar/motos_sidebar';
 import WorkanaJobs from './pages/workana_jobs';
 import WorkanaSidebar from './sidebar/workana_sidebar';
 import WorkanaMongo from './pages/workana_mongo';
+import Extra from './pages/extra';
 
 const {
   Footer,
@@ -38,6 +39,9 @@ function App() {
             <Menu.Item key="2">
               <Link to="/workana">Workana</Link>
             </Menu.Item>
+            <Menu.Item key="2">
+              <Link to="/extra">Extra</Link>
+            </Menu.Item>
           </Menu>
         </Header>
         <Layout>
@@ -45,6 +49,9 @@ function App() {
           <Switch>
             <Route path="/workana">
               <WorkanaSidebar/>
+            </Route>
+            <Route path="/extra">
+              <h1>Nada</h1>
             </Route>
             <Route path="/">
               <MotosSidebar/>
@@ -55,6 +62,9 @@ function App() {
           <Switch>
             <Route path="/workana/mongo">
               <WorkanaMongo/>
+            </Route>
+            <Route path="/extra">
+              <Extra />
             </Route>
             <Route path="/workana">
               <WorkanaJobs/>
