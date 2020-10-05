@@ -38,8 +38,9 @@ module.exports = {
     })
   },
   infosubvenciones: async function(req, res) {
+    const pages = req.query.pages;
     info_subvenciones.initializeHeaders().then(headers => {
-      info_subvenciones.scrapeRoot(headers).then(data_result => {
+      info_subvenciones.scrapeRoot(headers, pages).then(data_result => {
         console.log(data_result)
         res.send(data_result)
       })

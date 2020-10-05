@@ -26,10 +26,11 @@ function Extra(props) {
     console.log('Failed:', errorInfo);
   };
 
-  async function onBtnScrape() {
+  async function onBtnScrape(values) {
     console.log("click")
     // const url_request = `${DOMAIN}/scrapers/workana${pages ? "?pages=" + pages : "" }`;
-    const url_request = `${DOMAIN}/scrapers/extra`;
+    const { pages } = values
+    const url_request = `${DOMAIN}/scrapers/extra${pages ? "?pages=" + pages : "" }`;
     axios.get(url_request)
       .then(response => {
         const { rows } = response.data

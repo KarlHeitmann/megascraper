@@ -22,8 +22,13 @@ async function initializeHeaders() {
   
 }
 
-async function scrapeRoot(headers) {
-  const data_url = 'https://www.infosubvenciones.es/bdnstrans/busqueda?type=topconv&_search=false&nd=1601915599703&rows=50&page=2&sidx=4&sord=desc'
+async function scrapeRoot(headers, page) {
+  let data_url
+  if (page == null) {
+    data_url = `https://www.infosubvenciones.es/bdnstrans/busqueda?type=topconv&_search=false&nd=1601915599703&rows=50&page=1&sidx=4&sord=desc`
+  } else {
+    data_url = `https://www.infosubvenciones.es/bdnstrans/busqueda?type=topconv&_search=false&nd=1601915599703&rows=50&page=${page}&sidx=4&sord=desc`
+  }
   const data_result = await request.get({headers: headers, url: data_url})
   return data_result
 
