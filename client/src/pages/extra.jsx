@@ -11,10 +11,22 @@ import axios from 'axios';
 import infosubvenciones_columns from '../table_columnas/infosubvenciones';
 import { DOMAIN } from '../utils';
 
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
+const tailLayout = {
+  wrapperCol: { offset: 8, span: 16 },
+};
+
 function Extra(props) {
   const [infosubvenciones, setInfosubvenciones] = useState([])
 
-  async function onClickScrape() {
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
+  };
+
+  async function onBtnScrape() {
     console.log("click")
     // const url_request = `${DOMAIN}/scrapers/workana${pages ? "?pages=" + pages : "" }`;
     const url_request = `${DOMAIN}/scrapers/extra`;
@@ -30,12 +42,27 @@ function Extra(props) {
       <h1 className="title">Extra</h1>
       <Row>
         <Col>
-          <Button
-            onClick={onClickScrape}
-            type="primary">
-            
-            Submit
-          </Button>
+          <Form
+            {...layout}
+            name="basic"
+            initialValues={{ remember: true }}
+            onFinish={onBtnScrape}
+            onFinishFailed={onFinishFailed}
+          >
+            <Form.Item
+              label="Pages to scrap"
+              name="pages"
+              // rules={[{ required: true, message: 'Please input your username!' }]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item {...tailLayout}>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
         </Col>
       </Row>
       <Row>
