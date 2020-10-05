@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Table,
   Button,
@@ -8,9 +8,11 @@ import {
   Form
 } from 'antd';
 import axios from 'axios';
+import infosubvenciones_columns from '../table_columnas/infosubvenciones';
 import { DOMAIN } from '../utils';
 
 function Extra(props) {
+  const [infosubvenciones, setInfosubvenciones] = useState([])
 
   async function onClickScrape() {
     console.log("click")
@@ -18,7 +20,9 @@ function Extra(props) {
     const url_request = `${DOMAIN}/scrapers/extra`;
     axios.get(url_request)
       .then(response => {
-        console.log(response.data)
+        const { rows } = response.data
+        console.log(rows)
+        setInfosubvenciones(rows)
       })
   }
   return(
@@ -33,6 +37,12 @@ function Extra(props) {
             Submit
           </Button>
         </Col>
+      </Row>
+      <Row>
+        <Table
+          dataSource={infosubvenciones}
+          columns={infosubvenciones_columns}
+          />
       </Row>
     </>
   );
