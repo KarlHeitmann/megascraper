@@ -31,21 +31,35 @@ function WorkanaGrafs(props) {
     // const url_request = `${DOMAIN}/api/workana`;
     axios.get(url_request)
       .then(response => {
-        console.log(response)
+        // console.log(response)
         const workana_jobs = response.data;
         const commerce = workana_jobs.filter(r => r.titulo.match(/commerce/gi)).length
         const scrap    = workana_jobs.filter(r => r.titulo.match(/scrap/gi)).length
         const laravel  = workana_jobs.filter(r => r.titulo.match(/laravel/gi)).length
         const python   = workana_jobs.filter(r => r.titulo.match(/python/gi)).length
         const rails    = workana_jobs.filter(r => r.titulo.match(/rails/gi)).length
-        console.log(commerce, scrap, laravel, python, rails)
-        console.log(workana_jobs)
+        // console.log(commerce, scrap, laravel, python, rails)
+        // console.log(workana_jobs)
         setData({
           labels: [
             'commerce', 'scrap', 'laravel', 'python', 'rails'
           ],
           datasets: [{
-            data: [commerce, scrap, laravel, python, rails]
+            data: [commerce, scrap, laravel, python, rails],
+            backgroundColor: [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            '#8463FF',
+            '#56CEFF',
+            ],
+            hoverBackgroundColor: [
+            '#DF6384',
+            '#06A2CB',
+            '#DFCE56',
+            '#6463FF',
+            '#36CEFF',
+            ]
           }]
         })
         // setWorkanaJobs( workana_jobs )
