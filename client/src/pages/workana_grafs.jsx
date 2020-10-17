@@ -1,8 +1,32 @@
 import React from 'react';
+import { Doughnut } from 'react-chartjs-2';
 
 function WorkanaGrafs(props) {
+  const data = {
+    labels: [
+      'Red',
+      'Green',
+      'Yellow'
+    ],
+    datasets: [{
+      data: [300, 50, 100],
+      backgroundColor: [
+      '#FF6384',
+      '#36A2EB',
+      '#FFCE56'
+      ],
+      hoverBackgroundColor: [
+      '#FF6384',
+      '#36A2EB',
+      '#FFCE56'
+      ]
+    }]
+  };
   return (
-    <h1>Work in progress</h1>
+    <>
+      <h1>Work in progress</h1>
+      <Doughnut data={data}/>
+    </>
   );
 }
 
