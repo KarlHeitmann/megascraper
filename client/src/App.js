@@ -32,14 +32,14 @@ function App() {
       <Layout>
         <Header>
           <div className="logo" />
-          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[]}>
             <Menu.Item key="1">
               <Link to="/">Motos</Link>
             </Menu.Item>
             <Menu.Item key="2">
               <Link to="/workana">Workana</Link>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="3">
               <Link to="/extra">Extra</Link>
             </Menu.Item>
           </Menu>
