@@ -17,6 +17,7 @@ import WorkanaJobs from './pages/workana_jobs';
 import WorkanaSidebar from './sidebar/workana_sidebar';
 import WorkanaMongo from './pages/workana_mongo';
 import Extra from './pages/extra';
+import WorkanaGrafs from './pages/workana_grafs';
 
 const {
   Footer,
@@ -60,6 +61,9 @@ function App() {
         </Sider>
         <Content>
           <Switch>
+            <Route path="/workana/grafs">
+              <WorkanaGrafs/>
+            </Route>
             <Route path="/workana/mongo">
               <WorkanaMongo/>
             </Route>

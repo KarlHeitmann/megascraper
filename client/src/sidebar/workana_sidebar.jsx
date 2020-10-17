@@ -10,8 +10,8 @@ function WorkanaSidebar(props) {
   return(
     <Menu
       mode="inline"
-      defaultSelectedKeys={['1']}
-      defaultOpenKeys={['sub1']}
+      // defaultSelectedKeys={['1']}
+      // defaultOpenKeys={['sub1']}
       style={{ height: '100%', borderRight: 0 }}
       >
       <Menu.SubMenu key="sub1" icon={<UserOutlined />} title="Scrape">
@@ -27,7 +27,11 @@ function WorkanaSidebar(props) {
         </Menu.Item>
       </Menu.SubMenu>
       <Menu.SubMenu key="sub2" icon={<LaptopOutlined />} title="Graficos">
-        <Menu.Item key="3">Graficos</Menu.Item>
+        <Menu.Item key="3">
+          <Link to="/workana/grafs">
+            Graficos
+          </Link>
+        </Menu.Item>
       </Menu.SubMenu>
     </Menu>
   )
