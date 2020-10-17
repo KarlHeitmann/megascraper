@@ -33,5 +33,10 @@ module.exports = {
 	filtrarScraper: function(req, res) {
 		WorkanaJob.filtrarScraper()
 			.then(workana_jobs => res.json(workana_jobs))
-	}
+	},
+	grafsData: function(req, res) {
+		WorkanaJob.find({})
+			.then(jobs => res.json(jobs))
+			.catch(err => res.status(422).json(err));
+	},
 };

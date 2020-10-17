@@ -12,6 +12,9 @@ router
 router
 	.route('/filtrar_scraper')
 	.get(workanaController.filtrarScraper);
+router
+	.route('/grafs_data')
+	.get(workanaController.grafsData);
 
 router
 	.route('/:id')
