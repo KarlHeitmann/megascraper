@@ -14,7 +14,7 @@ function BienvenidoSidebar(props) {
       style={{ height: '100%', borderRight: 0 }}
       >
       <Menu.SubMenu key="sub1" icon={<UserOutlined />} title="Bienvenido">
-        <Menu.Item key="1">Quien soy</Menu.Item>
+        <Menu.Item key="1">¿Qué es esto?</Menu.Item>
       </Menu.SubMenu>
     </Menu>
   )
