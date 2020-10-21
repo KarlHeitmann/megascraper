@@ -19,6 +19,7 @@ import WorkanaMongo from './pages/workana_mongo';
 import Extra from './pages/extra';
 import WorkanaGrafs from './pages/workana_grafs';
 import Bienvenido from './pages/bienvenido';
+import BienvenidoSidebar from './sidebar/bienvenido_sidebar';
 
 const {
   Footer,
@@ -64,8 +65,7 @@ function App() {
               <MotosSidebar/>
             </Route>
             <Route path="/">
-              <h1>Nada</h1>
-              {/* <Bienvenido/> */}
+              <BienvenidoSidebar/>
             </Route>
           </Switch>
         </Sider>
