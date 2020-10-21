@@ -18,6 +18,7 @@ import WorkanaSidebar from './sidebar/workana_sidebar';
 import WorkanaMongo from './pages/workana_mongo';
 import Extra from './pages/extra';
 import WorkanaGrafs from './pages/workana_grafs';
+import Bienvenido from './pages/bienvenido';
 
 const {
   Footer,
@@ -35,12 +36,17 @@ function App() {
           <div className="logo" />
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[]}>
             <Menu.Item key="1">
-              <Link to="/">Motos</Link>
+              <Link to="/">
+                Bienvenido
+              </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link to="/workana">Workana</Link>
+              <Link to="/motos">Motos</Link>
             </Menu.Item>
             <Menu.Item key="3">
+              <Link to="/workana">Workana</Link>
+            </Menu.Item>
+            <Menu.Item key="4">
               <Link to="/extra">Extra</Link>
             </Menu.Item>
           </Menu>
@@ -54,8 +60,12 @@ function App() {
             <Route path="/extra">
               <h1>Nada</h1>
             </Route>
-            <Route path="/">
+            <Route path="/motos">
               <MotosSidebar/>
+            </Route>
+            <Route path="/">
+              <h1>Nada</h1>
+              {/* <Bienvenido/> */}
             </Route>
           </Switch>
         </Sider>
@@ -73,8 +83,11 @@ function App() {
             <Route path="/workana">
               <WorkanaJobs/>
             </Route>
-            <Route path="/">
+            <Route path="/motos">
               <Motos/>
+            </Route>
+            <Route path="/">
+              <Bienvenido/>
             </Route>
           </Switch>
         </Content>

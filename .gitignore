@@ -1,2 +1,4 @@
 # client
 .env
+html*
+*.htm
