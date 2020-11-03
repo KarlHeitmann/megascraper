@@ -20,6 +20,9 @@ async function index() {
     auto.year = $(lis[0]).text();
     auto.kilometraje = $(lis[1]).text();
     // console.log(auto);
+    const url = $(element).find('a.ui-search-result__content.ui-search-link').attr('href');
+    auto.url = url;
+    // console.log(url)
     autos.push(auto)
   })
   return autos;

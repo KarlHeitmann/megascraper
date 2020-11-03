@@ -5,12 +5,14 @@ import {
   Form,
   Input,
   Button,
+  Table,
 } from 'antd';
 
 import axios from 'axios';
 
 import workana_jobs_columns from '../table_columnas/workana_jobs';
 import { DOMAIN } from '../utils';
+import autos_columns from '../table_columnas/autos';
 
 const layout = {
   labelCol: { span: 8 },
@@ -22,6 +24,7 @@ const tailLayout = {
 
 function Autos(props) {
   // const [workana_jobs, setWorkanaJobs] = useState([])
+  const [autos, setAutos] = useState([])
 
   const onBtnScrape = (values) => {
     console.log("onBtnScrape");
@@ -32,6 +35,7 @@ function Autos(props) {
       .then(response => {
         const autos = response.data;
         console.log(autos)
+        setAutos(autos)
         // const { workana_jobs } = response.data;
         // console.log(workana_jobs)
         // setWorkanaJobs( workana_jobs )
@@ -67,6 +71,7 @@ function Autos(props) {
           </Form>
         </Col>
       </Row>
+      <Table dataSource={autos} columns={autos_columns}/>
     </>
   );
 };

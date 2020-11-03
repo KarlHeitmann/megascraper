@@ -39,11 +39,8 @@ module.exports = {
     })
   },
   autos: async function(req, res) {
-    console.log("hola")
-    autos.index().then(auto => {
-      console.log("exito")
-      console.log(auto)
-      res.send(auto)
+    autos.index().then(autos => {
+      res.send(autos)
     })
   },
   infosubvenciones: async function(req, res) {
