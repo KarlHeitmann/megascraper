@@ -41,7 +41,9 @@ module.exports = {
   autos: async function(req, res) {
     console.log("hola")
     autos.index().then(auto => {
+      console.log("exito")
       console.log(auto)
+      res.send(auto)
     })
   },
   infosubvenciones: async function(req, res) {

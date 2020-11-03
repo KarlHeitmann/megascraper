@@ -19,7 +19,8 @@ async function index() {
     const lis = $(atributo).find('li');
     auto.year = $(lis[0]).text();
     auto.kilometraje = $(lis[1]).text();
-    console.log(auto);
+    // console.log(auto);
+    autos.push(auto)
   })
   return autos;
 }

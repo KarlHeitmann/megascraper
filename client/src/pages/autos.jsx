@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Row,
   Col,
@@ -6,6 +6,11 @@ import {
   Input,
   Button,
 } from 'antd';
+
+import axios from 'axios';
+
+import workana_jobs_columns from '../table_columnas/workana_jobs';
+import { DOMAIN } from '../utils';
 
 const layout = {
   labelCol: { span: 8 },
@@ -16,7 +21,21 @@ const tailLayout = {
 };
 
 function Autos(props) {
+  // const [workana_jobs, setWorkanaJobs] = useState([])
+
   const onBtnScrape = (values) => {
+    console.log("onBtnScrape");
+    console.log(values);
+    const { pages } = values
+    const url_request = `${DOMAIN}/scrapers/autos${pages ? "?pages=" + pages : "" }`;
+    axios.get(url_request)
+      .then(response => {
+        const autos = response.data;
+        console.log(autos)
+        // const { workana_jobs } = response.data;
+        // console.log(workana_jobs)
+        // setWorkanaJobs( workana_jobs )
+      })
   }
   const onFinishFailed = errorInfo => {
   }
