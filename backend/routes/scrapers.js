@@ -12,10 +12,12 @@ const scrapersController = require('../controllers/scrapers');
 // 	.put(workanaController.update)
 // 	.delete(workanaController.remove);
 
-router.route('/workana').get(scrapersController.workana)
+router.route('/workana').get(scrapersController.workana);
 
-router.route('/extra').get(scrapersController.infosubvenciones)
+router.route('/extra').get(scrapersController.infosubvenciones);
 
-router.route("/motos").get(scrapersController.motos)
+router.route("/motos").get(scrapersController.motos);
+
+router.route("/autos").get(scrapersController.autos);
 
 module.exports = router;

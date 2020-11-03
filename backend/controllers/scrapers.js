@@ -1,6 +1,7 @@
 const workana_job = require('../scrapers/workana_job');
 const yapo_motos = require('../scrapers/yapo_motos');
 const info_subvenciones = require('../scrapers/infosubvenciones');
+const autos = require('../scrapers/autos');
 const WorkanaJob = require("../models/WorkanaJob");
 
 // TODO XXX: Quizas sea importante eliminar aqui los await, y reemplazarlos por
@@ -35,6 +36,12 @@ module.exports = {
         yapo_motos.insertYapoMotoInMongoDb(motos)
         res.send({motos})
       })
+    })
+  },
+  autos: async function(req, res) {
+    console.log("hola")
+    autos.index().then(auto => {
+      console.log(auto)
     })
   },
   infosubvenciones: async function(req, res) {

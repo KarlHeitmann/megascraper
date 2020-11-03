@@ -20,6 +20,7 @@ import Extra from './pages/extra';
 import WorkanaGrafs from './pages/workana_grafs';
 import Bienvenido from './pages/bienvenido';
 import BienvenidoSidebar from './sidebar/bienvenido_sidebar';
+import Autos from './pages/autos';
 
 const {
   Footer,
@@ -49,6 +50,9 @@ function App() {
             </Menu.Item>
             <Menu.Item key="4">
               <Link to="/extra">Extra</Link>
+            </Menu.Item>
+            <Menu.Item key="5">
+              <Link to="/autos">Autos</Link>
             </Menu.Item>
           </Menu>
         </Header>
@@ -85,6 +89,9 @@ function App() {
             </Route>
             <Route path="/motos">
               <Motos/>
+            </Route>
+            <Route path="/autos">
+              <Autos/>
             </Route>
             <Route path="/">
               <Bienvenido/>
