@@ -23,7 +23,10 @@ const autos_columns = [
   {
     title: 'Url',
     dataIndex: 'url',
-    key: 'url'
+    key: 'url',
+    render: (text, row, index) => {
+      return <a href={text}>Ir</a>
+    },
   }
 ]
 
