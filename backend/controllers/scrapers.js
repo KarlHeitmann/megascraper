@@ -13,7 +13,7 @@ module.exports = {
     console.log(pages);
 
     const vueltas = pages ? Number(pages) : 1;
-    
+
     let workana_jobs = [];
     for (let i = 1; i <= vueltas; i++) {
       const workana_url = `https://www.workana.com/jobs?category=it-programming&language=es&page=${i}`;
@@ -28,11 +28,14 @@ module.exports = {
 
   },
   motos: async function(req, res) {
-    
+
     // const motos_url = await yapo_motos.extraerUrlsPagina();
     // const motos = await yapo_motos.scrapeDetailUrls(motos_url);
+    console.log("MOTOS :::: main")
     yapo_motos.extraerUrlsPagina().then(motos_url => {
+      console.log("MOTOS :::: extraerUrlsPagina")
       yapo_motos.scrapeDetailUrls(motos_url).then(motos => {
+        console.log("MOTOS :::: scrapeDetailUrls")
         yapo_motos.insertYapoMotoInMongoDb(motos)
         res.send({motos})
       })
