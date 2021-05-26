@@ -92,19 +92,19 @@ async function scrapeDetailUrls(motos_url) {
       const element = filas_detalles[i];
       if (i == 0) { // Precio
         _moto.precio = $(element).find('strong').text().trim().replace(/\./g,'')
-        console.log(_moto.precio)
+        // console.log(_moto.precio)
       } else if (i == 1) { // year
         _moto.year = $(element).find('td').text().trim()
-        console.log(_moto.year)
+        // console.log(_moto.year)
       } else if (i == 2) { // kilometros
         _moto.kilometraje = $(element).find('td').text().trim()
-        console.log(_moto.kilometraje)
+        // console.log(_moto.kilometraje)
       } else if (i == 3) { // cilindradas
         _moto.cilindrada = $(element).find('td').text().trim().replace(' cc', '')
-        console.log(_moto.cilindrada)
+        // console.log(_moto.cilindrada)
       } else if (i == 4) { // tipo
         _moto.tipo = $(element).find('td').text().trim()
-        console.log(_moto.tipo)
+        // console.log(_moto.tipo)
       }
     }
     return _moto
@@ -113,8 +113,11 @@ async function scrapeDetailUrls(motos_url) {
 }
 
 async function extraerUrlsPagina() {
+  console.log("MOTOS :::: extraerUrlsPagina - 1")
   const result = await request.get(home_url);
+  console.log("MOTOS :::: extraerUrlsPagina - 2")
   const $ = await cheerio.load(result);
+  console.log("MOTOS :::: extraerUrlsPagina - 3")
   const motos_url = [];
   const motos_html = $('.ad.listing_thumbs')
   // const pruebas = 5;
@@ -136,7 +139,9 @@ async function extraerUrlsPagina() {
 }
 
 async function main() {
+  console.log("START main")
   const motos_url = await extraerUrlsPagina();
+  console.log("READY MOTOS_URL")
   const motos = await scrapeDetailUrls(motos_url);
   console.log("::::")
   console.log(motos);
