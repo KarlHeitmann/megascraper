@@ -15,16 +15,19 @@ function Bienvenido(props) {
   return (
     <Row gutter={16}>
       <Col>
-        <Image
-          width={200}
-          src={foto_perfil}
-          />
+        <div className="avatar">
+          <Image
+            className="avatar"
+            width={200}
+            src={foto_perfil}
+            />
+        </div>
       </Col>
       <Col>
         <Title>Bienvenido a mi aplicación web.</Title>
         <Paragraph>
           Soy Karl Heitmann, un artesando del siglo XXI. Esta aplicación web la comencé por necesidad personal. En mayo del 2020 descubrí el webscraping, y fue una técnica
-          que me asombró por completo. Encontré increíble que se pudiera ocupar algunas librerías en conjunto con unos lenguajes de programación para poder solicitar 
+          que me asombró por completo. Encontré increíble que se pudiera ocupar algunas librerías en conjunto con unos lenguajes de programación para poder solicitar
           una página web, y a partir del código HTML extraer la información que necesito.
 
         </Paragraph>
@@ -34,17 +37,13 @@ function Bienvenido(props) {
           a efectuar técnicas de scraping con un stack en NodeJS
         </Paragraph>
         <Paragraph>
-          Fue así como decidí crear este proyecto con este título tan pomposo: MegaScraper. Como estaba buscando una moto en ese entonces, decidí hacer un scraper para extraer 
+          Fue así como decidí crear este proyecto con este título tan pomposo: MegaScraper. Como estaba buscando una moto en ese entonces, decidí hacer un scraper para extraer
           información de anuncios clasificados de motos en la célebre página "yapo.cl". En Chile es super conocida. Este scraper consulta los últimos anuncios clasificados sobre
           motos en el portal, extrae la información y la presenta en pantalla.
         </Paragraph>
         <Paragraph>
-          Este scraper sin embargo presenta un problema que aún no resuelvo porque ya encontré mi moto. Y es que la página de yapo utiliza un encoding para sus caracteres que es el 
-          estándar ISO 8859-1. Que a veces funciona y a veces no. He estado intentando arreglarlo pero no he tenido el suficiente tiempo libre para solucionar bien el problema. 
-        </Paragraph>
-        <Paragraph>
-          El scraper que funciona bien es el de Workana. Y el origen de este scraper es "divertido" (por ponerle un adjetivo), y es que cuando comencé a estudiar el web scraping, me dije:
-          sería extraordinario que tuviera un scraper revisando el sitio de Workana, y cada vez que saliera un proyecto sobre scraping me enviara un mensaje a mi telegram. 
+          El scraper que pueden ver acá es el de Workana. El origen de este scraper es "divertido" (por ponerle un adjetivo), y es que cuando comencé a estudiar el web scraping, me dije:
+          sería extraordinario que tuviera un scraper revisando el sitio de Workana, y cada vez que saliera un proyecto sobre scraping me enviara un mensaje a mi telegram.
           El asunto es que al final me puse manos a la obra con este proyecto, y lo hice en conjunto con el scraper de motos. El scraper de Workana me busca los nuevos anuncios,
           los guarda en una base de datos, y cada vez que hace el scraping y guarda nuevas noticias, le pasa un filtro a todas las noticias de la base de datos, y los trabajos
           que pasan este filtro se envían a mi cuenta de Telegram.

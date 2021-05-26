@@ -43,15 +43,12 @@ function App() {
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Link to="/motos">Motos</Link>
-            </Menu.Item>
-            <Menu.Item key="3">
               <Link to="/workana">Workana</Link>
             </Menu.Item>
-            <Menu.Item key="4">
+            <Menu.Item key="3">
               <Link to="/extra">Extra</Link>
             </Menu.Item>
-            <Menu.Item key="5">
+            <Menu.Item key="4">
               <Link to="/autos">Autos</Link>
             </Menu.Item>
           </Menu>
@@ -62,18 +59,18 @@ function App() {
             <Route path="/workana">
               <WorkanaSidebar/>
             </Route>
-            <Route path="/extra">
+            <Route path="/autos">
               <h1>Nada</h1>
             </Route>
-            <Route path="/motos">
-              <MotosSidebar/>
+            <Route path="/extra">
+              <h1>Nada</h1>
             </Route>
             <Route path="/">
               <BienvenidoSidebar/>
             </Route>
           </Switch>
         </Sider>
-        <Content>
+        <Content className="contenido">
           <Switch>
             <Route path="/workana/grafs">
               <WorkanaGrafs/>
@@ -86,9 +83,6 @@ function App() {
             </Route>
             <Route path="/workana">
               <WorkanaJobs/>
-            </Route>
-            <Route path="/motos">
-              <Motos/>
             </Route>
             <Route path="/autos">
               <Autos/>
